@@ -14,5 +14,5 @@ emailConfig.domains = ["gmail.com", "googlemail.com"];
 emailConfig.invoiceAttachmentPath = "";
 
 // email
-emailConfig.sendgrid_api_key = "";
+// emailConfig.sendgrid_api_key = "";
 module.exports = emailConfig;
