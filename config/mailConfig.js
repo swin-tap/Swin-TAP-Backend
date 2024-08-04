@@ -15,5 +15,4 @@ emailConfig.invoiceAttachmentPath = "";
 
 // email
 emailConfig.sendgrid_api_key = "";
-
 module.exports = emailConfig;
