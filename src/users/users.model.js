@@ -1,12 +1,12 @@
 // import mongoose
-const mongoose = require('mongoose');
-const { number } = require('joi');
+const mongoose = require("mongoose");
+const { number } = require("joi");
 // declare model name
-const model_name = 'user';
+const model_name = "user";
 // import permission list
-const permissionList = require('../../config/permissionConfig').userRoles;
+const permissionList = require("../../config/permissionConfig").userRoles;
 // import user status
-const { userStatus } = require('../../config/permissionConfig');
+const { userStatus } = require("../../config/permissionConfig");
 
 // create schema
 const schema = new mongoose.Schema(
@@ -14,12 +14,6 @@ const schema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-    },
-    age: {
-      type: Number,
-    },
-    nic: {
-      type: String,
     },
     address: {
       type: String,
@@ -39,12 +33,11 @@ const schema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
-      unique: true,
     },
     role: {
       type: String,
       required: true,
-      default: permissionList.customer,
+      default: permissionList.seller,
       trim: true,
     },
     confirmation_code: {
@@ -69,7 +62,7 @@ const schema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
 // create modal
