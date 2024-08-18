@@ -1,44 +1,44 @@
 // import permission list
 const {
   admin,
-  customer,
-  staff,
-} = require('../../config/permissionConfig').userRoles;
+  seller,
+  mechanic,
+} = require("../../config/permissionConfig").userRoles;
 
 module.exports.permission_list = {
   users_get_all: {
-    path: '/',
+    path: "/",
     granted: [admin],
   },
   users_get_by_id: {
-    path: '/:id',
+    path: "/:id",
   },
   users_save: {
-    path: '/',
+    path: "/",
   },
   users_create: {
-    path: '/create',
+    path: "/create",
     granted: [admin],
   },
   users_login_email: {
-    path: '/login',
+    path: "/login",
   },
   users_forget_password: {
-    path: '/forget-password',
+    path: "/forget-password",
   },
   users_reset_password: {
-    path: '/reset-password',
-    granted: [admin, customer, staff],
+    path: "/reset-password",
+    granted: [admin, seller, mechanic],
   },
   users_confirmation: {
-    path: '/confirm/:id',
+    path: "/confirm/:id",
   },
   users_update: {
-    path: '/',
-    granted: [admin, customer, staff],
+    path: "/",
+    granted: [admin, seller, mechanic],
   },
   users_remove: {
-    path: '/:id',
+    path: "/:id",
     granted: [admin],
   },
 };

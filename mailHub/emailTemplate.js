@@ -1,5 +1,5 @@
 const templates = {};
-const config = require('../config/config');
+const config = require("../config/config");
 
 templates.welcomeEmail = function (firstName, code) {
   return `<table width="100%" cellpadding="0" cellspacing="0">
@@ -9,7 +9,7 @@ templates.welcomeEmail = function (firstName, code) {
 				  <tbody>
 					  <tr>
 						  <td style="text-align:center">
-							  <img width="200" style="padding: 10px" src="https://i.imgur.com/LDV3wbR.jpeg">
+							  <img width="200" style="padding: 10px" src="https://i.imgur.com/goYWLzk.jpeg">
 						  </td>
 					  </tr>
   
@@ -86,7 +86,7 @@ templates.passwordReset = function (first_name) {
 					<tbody>
 						<tr>
 							<td style="text-align:center">
-								<img width="200" style="padding: 10px" src="https://i.imgur.com/LDV3wbR.jpeg">
+								<img width="200" style="padding: 10px" src="https://i.imgur.com/goYWLzk.jpeg">
 							</td>
 						</tr>
 	
@@ -150,7 +150,7 @@ templates.passwordForget = function (first_name, password) {
 					<tbody>
 						<tr>
 							  <td style="text-align:center">
-								  <img width="200" style="padding: 10px" src="https://i.imgur.com/LDV3wbR.jpeg">
+								  <img width="200" style="padding: 10px" src="https://i.imgur.com/goYWLzk.jpeg">
 							  </td>
 						  </tr>
 				<tr>
@@ -215,7 +215,7 @@ templates.userCreation = function (name, email, password, code) {
 					<tbody>
 						<tr>
 							<td style="text-align:center">
-								<img width="200" src="https://i.imgur.com/LDV3wbR.jpeg" />
+								<img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
 							</td>
 						</tr>
 	

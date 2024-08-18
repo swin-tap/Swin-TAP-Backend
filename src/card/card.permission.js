@@ -1,33 +1,33 @@
 // import permission list
-const permissionList = require('../../config/permissionConfig').userRoles;
+const permissionList = require("../../config/permissionConfig").userRoles;
 
 module.exports.permission_list = {
   card_get_all: {
-    path: '/',
+    path: "/",
     granted: [
       permissionList.admin,
-      permissionList.customer,
-      permissionList.staff,
+      permissionList.seller,
+      permissionList.mechanic,
     ],
   },
   card_get_by_id: {
-    path: '/:id',
+    path: "/:id",
     granted: [
       permissionList.admin,
-      permissionList.customer,
-      permissionList.staff,
+      permissionList.seller,
+      permissionList.mechanic,
     ],
   },
   card_save: {
-    path: '/',
-    granted: [permissionList.admin, permissionList.customer],
+    path: "/",
+    granted: [permissionList.admin, permissionList.seller],
   },
   card_update: {
-    path: '/',
-    granted: [permissionList.admin, permissionList.customer],
+    path: "/",
+    granted: [permissionList.admin, permissionList.seller],
   },
   card_remove: {
-    path: '/:id',
+    path: "/:id",
     granted: [permissionList.admin],
   },
 };
