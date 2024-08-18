@@ -10,6 +10,4 @@ emailConfig.password = process.env.EMAIL_PASSWORD;
 emailConfig.domains = ["gmail.com", "googlemail.com"];
 emailConfig.invoiceAttachmentPath = "";
 
-// email
-// emailConfig.sendgrid_api_key = process.env.SENDGRID_API_KEY;
 module.exports = emailConfig;
