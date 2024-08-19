@@ -1,7 +1,7 @@
 // import model
-const model = require('./users.model');
+const model = require("./users.model");
 
-// find all
+// count
 module.exports.count = (query) => {
   return new Promise((resolve, reject) => {
     model

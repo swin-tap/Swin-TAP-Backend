@@ -27,42 +27,6 @@ const getTokenFromHeader = (req) => {
 };
 
 /**
- * validate the API request body according to the schema defined and validate the token
- * @returns validation Status
- * @param {*} schema , header tokens
- */
-module.exports.validateBodyWithToken = (schema, grantedArray) => {
-  return (req, res, next) => {
-    try {
-      // validate the API request body according to the schema defined
-      joi.validate(req.body, schema);
-
-      // verify token and check the expiration time.
-      const decoded = jwt.verify(getTokenFromHeader(req), secret);
-      permission.validity(decoded.role, grantedArray);
-      next();
-    } catch (error) {
-      return response.customError(error, res);
-    }
-
-    // verify token and check the expiration time.
-    jwt.verify(getTokenFromHeader(req), secret, async (err, decoded) => {
-      if (err) {
-        return response.customError("Invalid Token", res);
-      }
-      try {
-        const output = await permission.validity(decoded.role, grantedArray);
-        next();
-        return output;
-      } catch (error) {
-        return response.customError(error, res);
-      }
-    });
-    // return result;
-  };
-};
-
-/**
  * Validate the query parameters in the API request
  * @param schema
  * @returns {Function}

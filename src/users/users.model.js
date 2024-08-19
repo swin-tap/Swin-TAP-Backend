@@ -1,10 +1,9 @@
 // import mongoose
 const mongoose = require("mongoose");
-const { number } = require("joi");
 // declare model name
 const model_name = "user";
 // import permission list
-const permissionList = require("../../config/permissionConfig").userRoles;
+const { seller } = require("../../config/permissionConfig").userRoles;
 // import user status
 const { userStatus } = require("../../config/permissionConfig");
 
@@ -37,7 +36,7 @@ const schema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      default: permissionList.seller,
+      default: seller,
       trim: true,
     },
     confirmation_code: {

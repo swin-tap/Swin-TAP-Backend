@@ -1,10 +1,10 @@
 // import validator class
-const joi = require('joi');
+const joi = require("joi");
 
 // add object schema
 module.exports.addOneRecord = joi.object().keys({
   body: joi.string().required(),
-  category: joi.array().required(),
+  category: joi.string().required(),
   price: joi.string().required(),
 });
 
@@ -12,6 +12,6 @@ module.exports.addOneRecord = joi.object().keys({
 module.exports.updateOneRecord = joi.object().keys({
   _id: joi.string().required(),
   body: joi.string(),
-  category: joi.array(),
+  category: joi.string(),
   price: joi.string(),
 });

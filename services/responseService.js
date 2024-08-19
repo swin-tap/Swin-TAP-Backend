@@ -1,12 +1,13 @@
 // import token service
-const path = require('path');
-const tokenService = require('./tokenService');
+const path = require("path");
+const tokenService = require("./tokenService");
+const { log } = require("console");
 
 module.exports = {
   badRequest(res) {
     return res.status(422).json({
       status: false,
-      msg: 'Unexpected Error!',
+      msg: "Unexpected Error!",
     });
   },
   customError(message, res) {

@@ -1,5 +1,19 @@
 // import model
-const model = require('./card.model');
+const model = require("./card.model");
+
+// count
+module.exports.count = (query) => {
+  return new Promise((resolve, reject) => {
+    model
+      .count(query)
+      .then((data) => {
+        resolve(data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
 
 // find all
 module.exports.findAll = (query) => {
