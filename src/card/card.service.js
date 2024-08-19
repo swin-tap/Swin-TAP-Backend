@@ -1,5 +1,5 @@
 // import repository
-const repository = require('./card.repository');
+const repository = require("./card.repository");
 
 /**
  * GET all data set
@@ -33,7 +33,7 @@ module.exports.getById = async (id) => {
       console.log(data);
 
       if (!data || data.length == 0) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
@@ -52,6 +52,7 @@ module.exports.save = async (obj) => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await repository.save(obj);
+
       resolve(data);
     } catch (error) {
       reject(error);
@@ -71,7 +72,7 @@ module.exports.updateSingleObj = async (obj) => {
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
       if (!data) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
@@ -91,7 +92,7 @@ module.exports.DeleteSingleObject = async (id) => {
     try {
       const data = await repository.removeObject({ _id: id });
       if (!data) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }

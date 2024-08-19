@@ -1,15 +1,18 @@
 // import service
-const service = require('./card.service');
+const service = require("./card.service");
 // import response service to handle the output
-const response = require('../../services/responseService');
+const {
+  customError,
+  successWithData,
+} = require("../../services/responseService");
 
 // GET all data set
 module.exports.getAll = async (req, res) => {
   try {
     const output = await service.getAll();
-    return response.successWithData(output, res);
+    return successWithData(output, res);
   } catch (error) {
-    return response.customError(error, res);
+    return customError(error, res);
   }
 };
 
@@ -17,9 +20,9 @@ module.exports.getAll = async (req, res) => {
 module.exports.getOne = async (req, res) => {
   try {
     const output = await service.getById(req.params.id);
-    return response.successWithData(output, res);
+    return successWithData(output, res);
   } catch (error) {
-    return response.customError(error, res);
+    return customError(error, res);
   }
 };
 
@@ -27,9 +30,9 @@ module.exports.getOne = async (req, res) => {
 module.exports.postData = async (req, res) => {
   try {
     const output = await service.save(req.body);
-    return response.successWithData(output, res);
+    successWithData(output, res);
   } catch (error) {
-    return response.customError(error, res);
+    return customError(error, res);
   }
 };
 
@@ -37,9 +40,9 @@ module.exports.postData = async (req, res) => {
 module.exports.putData = async (req, res) => {
   try {
     const output = await service.updateSingleObj(req.body);
-    return response.successWithData(output, res);
+    return successWithData(output, res);
   } catch (error) {
-    return response.customError(error, res);
+    return customError(error, res);
   }
 };
 
@@ -47,8 +50,8 @@ module.exports.putData = async (req, res) => {
 module.exports.deleteData = async (req, res) => {
   try {
     const output = await service.DeleteSingleObject(req.params.id);
-    return response.successWithData(output, res);
+    return successWithData(output, res);
   } catch (error) {
-    return response.customError(error, res);
+    return customError(error, res);
   }
 };

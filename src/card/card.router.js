@@ -1,41 +1,46 @@
 // import validator Schemas
-const express = require('express');
-const schema = require('./card.schema');
+const express = require("express");
+const { addOneRecord, updateOneRecord } = require("./card.schema");
 // import controllers
-const controller = require('./card.controller');
+const {
+  getAll,
+  getOne,
+  postData,
+  putData,
+  deleteData,
+} = require("./card.controller");
 // import Validator class
-const validator = require('../../validators/validator');
+const { validateHeader, validateBody } = require("../../validators/validator");
 // Import Express
 // user router
 const router = express.Router();
 // import permission
-const permission = require('./card.permission').permission_list;
+const {
+  card_get_all,
+  card_get_by_id,
+  card_save,
+  card_update,
+  card_remove,
+} = require("./card.permission").permission_list;
 
-router.route(permission.card_get_all.path).get(controller.getAll);
-router.route(permission.card_get_by_id.path).get(controller.getOne);
+router.route(card_get_all.path).get(getAll);
+router.route(card_get_by_id.path).get(getOne);
 router
-  .route(permission.card_save.path)
+  .route(card_save.path)
   .post(
-    validator.validateBodyWithToken(
-      schema.addOneRecord,
-      permission.card_save.granted
-    ),
-    controller.postData
+    validateHeader(card_save.granted),
+    validateBody(addOneRecord),
+    postData
   );
 router
-  .route(permission.card_update.path)
+  .route(card_update.path)
   .put(
-    validator.validateBodyWithToken(
-      schema.updateOneRecord,
-      permission.card_save.granted
-    ),
-    controller.putData
+    validateHeader(card_update.granted),
+    validateBody(updateOneRecord),
+    putData
   );
 router
-  .route(permission.card_remove.path)
-  .delete(
-    validator.validateHeader(permission.card_save.granted),
-    controller.deleteData
-  );
+  .route(card_remove.path)
+  .delete(validateHeader(card_remove.granted), deleteData);
 
 module.exports = router;
