@@ -50,6 +50,6 @@ module.exports.resetPasswordScm = joi.object().keys({
 });
 
 // forget password
-module.exports.forgetPassword = joi.object().keys({
+module.exports.forgetPasswordScm = joi.object().keys({
   email: joi.string().required(),
 });

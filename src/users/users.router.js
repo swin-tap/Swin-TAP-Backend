@@ -6,6 +6,7 @@ const {
   loginScm,
   putScm,
   resetPasswordScm,
+  forgetPasswordScm,
 } = require("./users.schema");
 // import controllers
 const {
@@ -72,7 +73,7 @@ router
 // forget password object
 router
   .route(users_forget_password.path)
-  .post(validateBody(forgetPassword), forgetPassword);
+  .post(validateBody(forgetPasswordScm), forgetPassword);
 // confirm password
 router.route(users_confirmation.path).get(confUser);
 
