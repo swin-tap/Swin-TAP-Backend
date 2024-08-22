@@ -1,11 +1,11 @@
 // import service
-const service = require('./files.service');
+const service = require("./files.service");
 
 const {
   customError,
   successWithMessage,
   successWithData,
-} = require('../../services/responseService');
+} = require("../../services/responseService");
 
 /**
  * Save file
@@ -31,7 +31,7 @@ module.exports.saveFile = async (req, res) => {
 module.exports.deleteFile = async (req, res) => {
   try {
     await service.deleteFile(req.params.id);
-    return successWithMessage('File deleted.', res);
+    return successWithMessage("File deleted.", res);
   } catch (error) {
     return customError(`${error}`, res);
   }

@@ -56,6 +56,18 @@ const schema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    identity_verification_documents: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "file",
+    },
+    skill_verification_documents: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "file",
+    },
+    image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "file",
+    },
     is_deleted: {
       type: Boolean,
       default: false,
