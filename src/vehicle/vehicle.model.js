@@ -80,7 +80,7 @@ const schema = new mongoose.Schema(
     },
     files: {
       type: [Object],
-      required: true,
+      required: false, // Need to update
     },
     inspection_status: {
       type: String,

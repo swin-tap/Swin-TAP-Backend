@@ -16,6 +16,16 @@ module.exports.getAll = async (req, res) => {
   }
 };
 
+// GET all data set for requested inspection
+module.exports.getAllInspectionRequests = async (req, res) => {
+  try {
+    const output = await service.getAllInspectionRequests();
+    return successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
 // GET single object
 module.exports.getOne = async (req, res) => {
   try {
@@ -49,6 +59,8 @@ module.exports.putData = async (req, res) => {
 // Delete single object
 module.exports.deleteData = async (req, res) => {
   try {
+    console.log(req.params.id);
+    console.log('req.params.id');
     const output = await service.DeleteSingleObject(req.params.id);
     return successWithData(output, res);
   } catch (error) {

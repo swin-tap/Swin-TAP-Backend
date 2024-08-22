@@ -1,5 +1,6 @@
 // import permission list
-const { admin, seller } = require('../../config/permissionConfig').userRoles;
+const { admin, seller, mechanic } =
+  require('../../config/permissionConfig').userRoles;
 
 module.exports.permission_list = {
   vehicle_get_all: {

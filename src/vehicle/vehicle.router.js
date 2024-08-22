@@ -8,6 +8,7 @@ const {
   postData,
   putData,
   deleteData,
+  getAllInspectionRequests,
 } = require('./vehicle.controller');
 // import Validator class
 const { validateHeader, validateBody } = require('../../validators/validator');
@@ -21,12 +22,16 @@ const {
   vehicle_save,
   vehicle_update,
   vehicle_remove,
+  vehicle_get_all_inspection_requests,
 } = require('./vehicle.permission').permission_list;
 
 router.route(vehicle_get_all.path).get(getAll);
 router
   .route(vehicle_get_all_inspection_requests.path)
-  .get(validateHeader(vehicle_get_all_inspection_requests.granted), getAll);
+  .get(
+    validateHeader(vehicle_get_all_inspection_requests.granted),
+    getAllInspectionRequests
+  );
 router.route(vehicle_get_by_id.path).get(getOne);
 router
   .route(vehicle_save.path)
