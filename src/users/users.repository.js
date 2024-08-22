@@ -26,6 +26,9 @@ module.exports.findAll = (query, queryParams = {}) => {
       .find(query)
       .skip(offset)
       .limit(limit)
+      .populate("identity_verification_documents")
+      .populate("skill_verification_documents")
+      .populate("image")
       .then((data) => {
         resolve(data);
       })
@@ -40,6 +43,9 @@ module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
     model
       .findById(query)
+      .populate("identity_verification_documents")
+      .populate("skill_verification_documents")
+      .populate("image")
       .then((data) => {
         resolve(data);
       })

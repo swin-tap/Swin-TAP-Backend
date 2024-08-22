@@ -1,11 +1,11 @@
-const jimp = require('jimp');
-const { v4: uuidv4 } = require('uuid');
+const jimp = require("jimp");
+const { v4: uuidv4 } = require("uuid");
 // import file reading service
-const fs = require('fs');
+const fs = require("fs");
 // import repository
-const repository = require('./files.repository');
+const repository = require("./files.repository");
 // import image config
-const fileConfig = require('../../config/fileConfig');
+const fileConfig = require("../../config/fileConfig");
 
 /**
  * Resize image
@@ -33,11 +33,11 @@ const deleteFileObject = async (id) => {
   const data = await repository.findfileById(id);
 
   if (!data) {
-    throw new Error('File not found.');
+    throw new Error("File not found.");
   }
 
   const extension = data.new_filename.substring(
-    data.new_filename.lastIndexOf('.') + 1,
+    data.new_filename.lastIndexOf(".") + 1,
     data.new_filename.length
   );
 
@@ -66,17 +66,17 @@ const deleteFileObject = async (id) => {
  */
 module.exports.saveFile = async (file) => {
   const uid = uuidv4();
-  const oldPath = file.body.demo_file.path;
-  const originalFilename = file.body.demo_file.name;
+  const oldPath = file.body.file.path;
+  const originalFilename = file.body.file.name;
   const extension = originalFilename.substring(
-    originalFilename.lastIndexOf('.'),
+    originalFilename.lastIndexOf("."),
     originalFilename.length
   );
   const newFilename = `${uid}${extension}`;
   let newPath = `${fileConfig.fileSavePath}${newFilename}`;
 
   // If it is an image
-  if (fileConfig.imageTypes.includes(file.body.demo_file.type)) {
+  if (fileConfig.imageTypes.includes(file.body.file.type)) {
     // Save to selected sizes
     file.body.dimensions.forEach(async (dimension) => {
       newPath = `${fileConfig.fileSavePath}${dimension.width}x${dimension.height}/${newFilename}`;

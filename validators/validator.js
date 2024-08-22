@@ -89,36 +89,38 @@ module.exports.validateHeader = (grantedArray) => {
  * @param {*} schema
  */
 module.exports.validateFormData = (schema) => async (req, res, next) => {
-  const form = formidable({ multiples: true });
-  const data = [];
-
-  form.parse(req, (err, fields, files) => {
-    if (err) return response.customError(err);
-
-    if (Array.isArray(files.files)) {
-      for (file of files.files) {
-        data.push({
-          size: file.size,
-          path: file.path,
-          name: file.name,
-          type: file.type,
-        });
+  const form = formidable({
+    maxFileSize: fileConfig.maxFileSize,
+  });
+  const formFields = await new Promise((resolve, reject) => {
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        reject(err);
+        return response.customError(`${err}`, res);
       }
-    } else {
-      data.push({
-        size: files.size,
-        path: files.path,
-        name: files.name,
-        type: files.type,
-      });
+
+      resolve({ fields, files });
+      return null;
+    });
+  });
+
+  const data = {
+    ...formFields.fields,
+    ...formFields.files,
+  };
+
+  Object.entries(data).forEach((entry) => {
+    const key = entry[0];
+    try {
+      data[key] = JSON.parse(data[key]);
+    } catch (error) {
+      // continue regardless of error
     }
   });
 
-  const result = schema.validate({ files: data });
-  if (result.error) {
-    return response.customError(result.error.details[0].message, res);
-  }
+  const result = schema.validate(data);
 
+  req.body = data;
   next();
   return null;
 };
