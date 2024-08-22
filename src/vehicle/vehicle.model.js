@@ -2,6 +2,13 @@
 const mongoose = require('mongoose');
 // declare model name
 const model_name = 'vehicle';
+// import from vehicle config
+const {
+  condition,
+  transmission,
+  fuel_type,
+  inspection_status,
+} = require('../../config/vehicleConfig');
 
 // create schema
 const schema = new mongoose.Schema(
@@ -30,10 +37,12 @@ const schema = new mongoose.Schema(
     condition: {
       type: String,
       required: true,
+      enum: [condition.new, condition.used], // Only these values are allowed
     },
     transmission: {
       type: String,
       required: true,
+      enum: [transmission.auto, transmission.manual, transmission.triptonic], // Only these values are allowed
     },
     body_type: {
       type: String,
@@ -42,6 +51,13 @@ const schema = new mongoose.Schema(
     fuel_type: {
       type: String,
       required: true,
+      enum: [
+        fuel_type.petrol,
+        fuel_type.diesel,
+        fuel_type.gas,
+        fuel_type.hybrid,
+        fuel_type.electric,
+      ], // Only these values are allowed
     },
     mileage: {
       type: Number,
@@ -69,6 +85,12 @@ const schema = new mongoose.Schema(
     inspection_status: {
       type: String,
       required: true,
+      enum: [
+        inspection_status.not_requested,
+        inspection_status.requested,
+        inspection_status.accepted,
+        inspection_status.completed,
+      ], // Only these values are allowed
     },
     inspection_id: {
       type: String,

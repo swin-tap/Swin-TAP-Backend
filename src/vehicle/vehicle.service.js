@@ -1,6 +1,9 @@
 // import repository
 const repository = require('./vehicle.repository');
 
+// import from vehicle config
+const { inspection_status } = require('../../config/vehicleConfig');
+
 /**
  * GET all data set
  * @input
@@ -10,6 +13,28 @@ module.exports.getAll = async () => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await repository.findAll({});
+      if (!data || data.length == 0) {
+        resolve([]);
+      } else {
+        resolve(data);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * GET data set with inspection_status as requested
+ * @input
+ * @output {array}
+ */
+module.exports.getAllInspectionRequests = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await repository.findAll({
+        inspection_status: inspection_status.requested,
+      });
       if (!data || data.length == 0) {
         resolve([]);
       } else {

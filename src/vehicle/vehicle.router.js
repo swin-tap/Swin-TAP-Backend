@@ -24,6 +24,9 @@ const {
 } = require('./vehicle.permission').permission_list;
 
 router.route(vehicle_get_all.path).get(getAll);
+router
+  .route(vehicle_get_all_inspection_requests.path)
+  .get(validateHeader(vehicle_get_all_inspection_requests.granted), getAll);
 router.route(vehicle_get_by_id.path).get(getOne);
 router
   .route(vehicle_save.path)

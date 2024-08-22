@@ -5,6 +5,10 @@ module.exports.permission_list = {
   vehicle_get_all: {
     path: '/',
   },
+  vehicle_get_all_inspection_requests: {
+    path: '/inspections',
+    granted: [admin, mechanic],
+  },
   vehicle_get_by_id: {
     path: '/:id',
   },
@@ -14,7 +18,7 @@ module.exports.permission_list = {
   },
   vehicle_update: {
     path: '/',
-    granted: [admin, seller],
+    granted: [admin, seller, mechanic],
   },
   vehicle_remove: {
     path: '/:id',
