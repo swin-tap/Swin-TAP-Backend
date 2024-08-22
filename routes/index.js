@@ -17,7 +17,11 @@ router.use(
 router.use("/users", require("../src/users/users.router"));
 // set card routes
 router.use("/cards", require("../src/card/card.router"));
-
+// set inspection report routes
+router.use(
+  "/inspection-report",
+  require("../src/inspection-report/inspection-report.router")
+);
 // set image routes
 router.use("/files", require("../src/file-uploader/files.router"));
 
