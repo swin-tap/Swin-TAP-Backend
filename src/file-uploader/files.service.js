@@ -66,8 +66,8 @@ const deleteFileObject = async (id) => {
  */
 module.exports.saveFile = async (file) => {
   const uid = uuidv4();
-  const oldPath = file.body.demo_file.path;
-  const originalFilename = file.body.demo_file.name;
+  const oldPath = file.body.file.path;
+  const originalFilename = file.body.file.name;
   const extension = originalFilename.substring(
     originalFilename.lastIndexOf('.'),
     originalFilename.length
@@ -76,7 +76,7 @@ module.exports.saveFile = async (file) => {
   let newPath = `${fileConfig.fileSavePath}${newFilename}`;
 
   // If it is an image
-  if (fileConfig.imageTypes.includes(file.body.demo_file.type)) {
+  if (fileConfig.imageTypes.includes(file.body.file.type)) {
     // Save to selected sizes
     file.body.dimensions.forEach(async (dimension) => {
       newPath = `${fileConfig.fileSavePath}${dimension.width}x${dimension.height}/${newFilename}`;

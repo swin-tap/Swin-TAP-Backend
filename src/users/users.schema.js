@@ -1,11 +1,8 @@
 // import validator class
-const joi = require("joi");
+const joi = require('joi');
 // import permission list
-const {
-  seller,
-  mechanic,
-  admin,
-} = require("../../config/permissionConfig").userRoles;
+const { seller, mechanic, admin } =
+  require('../../config/permissionConfig').userRoles;
 
 // add object schema
 module.exports.postScm = joi.object().keys({
@@ -15,6 +12,9 @@ module.exports.postScm = joi.object().keys({
   email: joi.string().required(),
   phone: joi.string(),
   role: joi.string().valid(seller, mechanic, admin),
+  identity_verification_documents: joi.array().items(joi.string()),
+  skill_verification_documents: joi.array().items(joi.string()),
+  image: joi.string(),
 });
 
 // create object schema
@@ -23,6 +23,9 @@ module.exports.create = joi.object().keys({
   address: joi.string(),
   email: joi.string().required(),
   role: joi.string().valid(seller, mechanic, admin),
+  identity_verification_documents: joi.array().items(joi.string()),
+  skill_verification_documents: joi.array().items(joi.string()),
+  image: joi.string(),
 });
 
 // update object schema
@@ -34,6 +37,9 @@ module.exports.putScm = joi.object().keys({
   email: joi.string(),
   phone: joi.string(),
   role: joi.string().valid(seller, mechanic, admin),
+  identity_verification_documents: joi.array().items(joi.string()),
+  skill_verification_documents: joi.array().items(joi.string()),
+  image: joi.string(),
 });
 
 // login

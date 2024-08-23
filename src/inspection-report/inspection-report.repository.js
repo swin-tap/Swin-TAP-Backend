@@ -1,5 +1,5 @@
 // import model
-const model = require('./users.model');
+const model = require('./inspection-report.model');
 
 // count
 module.exports.count = (query) => {
@@ -16,19 +16,13 @@ module.exports.count = (query) => {
 };
 
 // find all
-module.exports.findAll = (query, queryParams = {}) => {
+module.exports.findAll = (query) => {
   return new Promise((resolve, reject) => {
-    // define limit and offset
-    const limit = parseInt(queryParams.limit);
-    const offset = parseInt(queryParams.offset);
-
     model
       .find(query)
-      .skip(offset)
-      .limit(limit)
-      .populate('identity_verification_documents')
-      .populate('skill_verification_documents')
-      .populate('image')
+      .populate('mechanic')
+      .populate('vehicle')
+      .populate('images')
       .then((data) => {
         resolve(data);
       })
@@ -43,9 +37,9 @@ module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
     model
       .findById(query)
-      .populate('identity_verification_documents')
-      .populate('skill_verification_documents')
-      .populate('image')
+      .populate('mechanic')
+      .populate('vehicle')
+      .populate('images')
       .then((data) => {
         resolve(data);
       })
@@ -73,7 +67,7 @@ module.exports.save = (obj) => {
 module.exports.updateSingleObject = (query, obj) => {
   return new Promise((resolve, reject) => {
     model
-      .findOneAndUpdate(query, obj, { new: true, safe: true })
+      .findByIdAndUpdate(query, obj, { new: true, safe: true })
       .then((data) => {
         resolve(data);
       })
@@ -87,7 +81,7 @@ module.exports.updateSingleObject = (query, obj) => {
 module.exports.removeObject = (query) => {
   return new Promise((resolve, reject) => {
     model
-      .findOneAndDelete(query)
+      .findByIdAndDelete(query)
       .then((data) => {
         resolve(data);
       })

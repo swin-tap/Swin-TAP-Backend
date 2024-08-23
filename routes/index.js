@@ -19,7 +19,11 @@ router.use('/users', require('../src/users/users.router'));
 router.use('/cards', require('../src/card/card.router'));
 // set vehicle routes
 router.use('/vehicle', require('../src/vehicle/vehicle.router'));
-
+// set inspection report routes
+router.use(
+  '/inspection-report',
+  require('../src/inspection-report/inspection-report.router')
+);
 // set image routes
 router.use('/files', require('../src/file-uploader/files.router'));
 
