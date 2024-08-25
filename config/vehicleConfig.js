@@ -24,4 +24,21 @@ const inspection_status = {
   completed: 'completed',
 };
 
-module.exports = { condition, transmission, fuel_type, inspection_status };
+const located_state = {
+  ACT: 'ACT',
+  NSW: 'NSW',
+  NT: 'NT',
+  QLD: 'QLD',
+  SA: 'SA',
+  TAS: 'TAS',
+  VIC: 'VIC',
+  WA: 'WA',
+};
+
+module.exports = {
+  condition,
+  transmission,
+  fuel_type,
+  inspection_status,
+  located_state,
+};

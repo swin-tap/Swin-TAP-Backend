@@ -8,6 +8,7 @@ const {
   transmission,
   fuel_type,
   inspection_status,
+  located_state,
 } = require('../../config/vehicleConfig');
 
 // create schema
@@ -78,10 +79,12 @@ const schema = new mongoose.Schema(
       required: true,
       ref: 'user', // seller_id references a users
     },
-    files: {
-      type: [Object],
-      required: false, // Need to update
-    },
+    files: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'file',
+      },
+    ],
     inspection_status: {
       type: String,
       required: true,
@@ -92,15 +95,28 @@ const schema = new mongoose.Schema(
         inspection_status.completed,
       ], // Only these values are allowed
     },
-    inspection_id: {
+    address: {
       type: String,
-      required: false,
+      required: true,
     },
-    /* inspection_id: {
-      type: mongoose.Schema.Types.ObjectId, // Use ObjectId for inspection reference
-      required: false,
-      ref: 'inspection', // Assuming inspection_id references an Inspection model
-    }, */
+    state: {
+      type: String,
+      required: true,
+      enum: [
+        located_state.ACT,
+        located_state.NSW,
+        located_state.NT,
+        located_state.QLD,
+        located_state.SA,
+        located_state.TAS,
+        located_state.VIC,
+        located_state.WA,
+      ], // Only these values are allowed
+    },
+    postal_code: {
+      type: Number,
+      required: true,
+    },
     is_deleted: {
       type: Boolean,
       default: false,

@@ -8,10 +8,10 @@ const { not_assign } = require('../../config/inspectionReportConfig').status;
 // create schema
 const schema = new mongoose.Schema(
   {
-    // vehicle: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "vehicle",
-    // },
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'vehicle',
+    },
     mechanic: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',

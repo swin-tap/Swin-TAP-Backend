@@ -6,6 +6,7 @@ const {
   transmission,
   fuel_type,
   inspection_status,
+  located_state,
 } = require('../../config/vehicleConfig');
 
 // add object schema
@@ -35,7 +36,7 @@ module.exports.addOneRecord = joi.object().keys({
   description: joi.string().required(),
   price: joi.number().required(),
   seller_id: joi.string().required(),
-  files: joi.array().items(joi.object()), /// /Need to update.required(),
+  files: joi.array().items(joi.string()),
   inspection_status: joi
     .string()
     .valid(
@@ -45,7 +46,21 @@ module.exports.addOneRecord = joi.object().keys({
       inspection_status.completed
     )
     .required(),
-  inspection_id: joi.string().optional(),
+  address: joi.string().required(),
+  state: joi
+    .string()
+    .valid(
+      located_state.ACT,
+      located_state.NSW,
+      located_state.NT,
+      located_state.QLD,
+      located_state.SA,
+      located_state.TAS,
+      located_state.VIC,
+      located_state.WA
+    )
+    .required(),
+  postal_code: joi.number().required(),
 });
 
 // update object schema
@@ -74,7 +89,7 @@ module.exports.updateOneRecord = joi.object().keys({
   description: joi.string(),
   price: joi.number(), // Price as a number
   seller_id: joi.string(),
-  files: joi.array().items(joi.object()),
+  files: joi.array().items(joi.string()),
   inspection_status: joi
     .string()
     .valid(
@@ -83,5 +98,19 @@ module.exports.updateOneRecord = joi.object().keys({
       inspection_status.accepted,
       inspection_status.completed
     ),
-  inspection_id: joi.string().optional(),
+  address: joi.string().required(),
+  state: joi
+    .string()
+    .valid(
+      located_state.ACT,
+      located_state.NSW,
+      located_state.NT,
+      located_state.QLD,
+      located_state.SA,
+      located_state.TAS,
+      located_state.VIC,
+      located_state.WA
+    )
+    .required(),
+  postal_code: joi.number().required(),
 });
