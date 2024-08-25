@@ -23,10 +23,7 @@ module.exports.getAllInspectionRequests = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // For pagination
     const limit = parseInt(req.query.limit) || 10; // For pagination
-    const output = await service.getAllInspectionRequests(
-      req.query.page,
-      req.query.limit
-    );
+    const output = await service.getAllInspectionRequests(page, limit);
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);

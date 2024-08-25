@@ -23,6 +23,11 @@ module.exports.findAll = (query) => {
       .find(filters)
       .skip(offset) // For pagination
       .limit(limit)
+      .populate({
+        path: 'seller_id', // The field in Vehicle schema that refers to seller
+        select: 'name email', // The fields you want to retrieve from the seller model
+      })
+      .populate('files')
       .then((data) => {
         resolve(data);
       })
@@ -37,6 +42,15 @@ module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
     model
       .findById(query)
+      .populate({
+        path: 'seller_id', // The field in Vehicle schema that refers to seller
+        select: 'name email', // The fields you want to retrieve from the seller model
+      })
+      .populate('files')
+      .populate('inspection_report_id')
+      .then((data) => {
+        resolve(data);
+      })
       .then((data) => {
         resolve(data);
       })
