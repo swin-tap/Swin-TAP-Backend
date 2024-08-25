@@ -9,10 +9,11 @@ const { inspection_status } = require('../../config/vehicleConfig');
  * @input
  * @output {array}
  */
-module.exports.getAll = async () => {
+module.exports.getAll = async (page, limit) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = await repository.findAll({});
+      const offset = (page - 1) * limit; // For pagination
+      const data = await repository.findAll({ offset, limit });
       if (!data || data.length == 0) {
         resolve([]);
       } else {
@@ -29,11 +30,14 @@ module.exports.getAll = async () => {
  * @input
  * @output {array}
  */
-module.exports.getAllInspectionRequests = async () => {
+module.exports.getAllInspectionRequests = async (page, limit) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const offset = (page - 1) * limit;
       const data = await repository.findAll({
         inspection_status: inspection_status.requested,
+        offset,
+        limit,
       });
       if (!data || data.length == 0) {
         resolve([]);

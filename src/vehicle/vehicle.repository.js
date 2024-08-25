@@ -18,8 +18,11 @@ module.exports.count = (query) => {
 // find all
 module.exports.findAll = (query) => {
   return new Promise((resolve, reject) => {
+    const { offset, limit, ...filters } = query; // Extract offset and limit, and remove them from the query object and Separate filters from pagination parameters
     model
-      .find(query)
+      .find(filters)
+      .skip(offset) // For pagination
+      .limit(limit)
       .then((data) => {
         resolve(data);
       })
