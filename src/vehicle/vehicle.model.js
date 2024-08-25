@@ -17,18 +17,22 @@ const schema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
+      trim: true,
     },
     color: {
       type: String,
       required: true,
+      trim: true,
     },
     brand: {
       type: String,
       required: true,
+      trim: true,
     },
     model: {
       type: String,
       required: true,
+      trim: true,
     },
     yom: {
       type: Number,
@@ -68,6 +72,7 @@ const schema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
+      trim: true,
     },
     price: {
       type: Number,
@@ -98,6 +103,7 @@ const schema = new mongoose.Schema(
     address: {
       type: String,
       required: true,
+      trim: true,
     },
     state: {
       type: String,

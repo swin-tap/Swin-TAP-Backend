@@ -11,6 +11,12 @@ const schema = new mongoose.Schema(
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'vehicle',
+      required: true,
+    },
+    inspection_time: {
+      type: String,
+      required: true,
+      trim: true,
     },
     mechanic: {
       type: mongoose.Schema.Types.ObjectId,
