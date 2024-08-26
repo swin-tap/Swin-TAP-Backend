@@ -12,7 +12,13 @@ const config = require('./config/config');
 // create express server
 const server = express();
 // Allow cross origins
-server.use(cors());
+server.use(
+  cors({
+    origin: 'https://autoassure.me',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 // Set constant server port
 const serverPort = config.web_port;
 
