@@ -100,10 +100,6 @@ const schema = new mongoose.Schema(
         inspection_status.completed,
       ], // Only these values are allowed
     },
-    inspection_report_id: {
-      type: mongoose.Schema.Types.ObjectId, // ObjectId for referencing other documents
-      ref: 'inspection_report',
-    },
     address: {
       type: String,
       required: true,

@@ -47,7 +47,6 @@ module.exports.findById = (query) => {
         select: 'name email', // The fields you want to retrieve from the seller model
       })
       .populate('files')
-      .populate('inspection_report_id')
       .then((data) => {
         resolve(data);
       })
