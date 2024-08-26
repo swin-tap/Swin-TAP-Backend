@@ -21,7 +21,8 @@ server.use(
 );
 // Set constant server port
 const serverPort = config.web_port;
-
+const fs = require('fs');
+const https = require('https');
 const directoryService = require('./services/directoryService');
 
 directoryService.createDirectories();
@@ -33,21 +34,21 @@ server.use('/api', require('./routes'));
 server.use(express.static(__dirname));
 // check environment
 const { isProduction } = config;
-// // private key
-// let privateKey = fs.readFileSync(config.sslPrivetKeyPath);
-// // certificate
-// let certificate = fs.readFileSync(config.sslCertKeyPath);
-// let ca = fs.readFileSync(config.sslCertAuthPath);
-// // https options
-// let options = {
-//   key: privateKey,
-//   cert: certificate,
-//   ca: ca
-// };
+ // private key
+ let privateKey = fs.readFileSync(config.sslPrivetKeyPath);
+ // certificate
+ let certificate = fs.readFileSync(config.sslCertKeyPath);
+ let ca = fs.readFileSync(config.sslCertAuthPath);
+ // https options
+ let options = {
+   key: privateKey,
+   cert: certificate,
+   ca: ca
+ };
 
 // Database Connection initiation
 if (isProduction) {
-  mongoose.connect(`mongodb:${config.database}`, {
+ mongoose.connect(`mongodb:${config.database}`, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
@@ -71,7 +72,7 @@ httpServer.listen(serverPort, (err) => {
   }
 });
 
-// https.createServer(options, server).listen(config.https_web_port);
-// console.log('HTTPS server listen on port ' + config.https_web_port);
+ https.createServer(options, server).listen(config.https_web_port);
+ console.log('HTTPS server listen on port ' + config.https_web_port);
 
 module.exports = server;
