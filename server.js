@@ -8,14 +8,21 @@ const mongoose = require('mongoose');
 // import http
 const http = require('http');
 
-const config = require('./config/config');
 // create express server
 const server = express();
 // Allow cross origins
-server.use(cors());
+server.use(
+  cors({
+    origin: 'https://autoassure.me',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 // Set constant server port
 const serverPort = config.web_port;
-
+const fs = require('fs');
+const https = require('https');
+const config = require('./config/config');
 const directoryService = require('./services/directoryService');
 
 directoryService.createDirectories();
@@ -27,17 +34,17 @@ server.use('/api', require('./routes'));
 server.use(express.static(__dirname));
 // check environment
 const { isProduction } = config;
-// // private key
-// let privateKey = fs.readFileSync(config.sslPrivetKeyPath);
-// // certificate
-// let certificate = fs.readFileSync(config.sslCertKeyPath);
-// let ca = fs.readFileSync(config.sslCertAuthPath);
-// // https options
-// let options = {
-//   key: privateKey,
-//   cert: certificate,
-//   ca: ca
-// };
+// private key
+const privateKey = fs.readFileSync(config.sslPrivetKeyPath);
+// certificate
+const certificate = fs.readFileSync(config.sslCertKeyPath);
+const ca = fs.readFileSync(config.sslCertAuthPath);
+// https options
+const options = {
+  key: privateKey,
+  cert: certificate,
+  ca,
+};
 
 // Database Connection initiation
 if (isProduction) {
@@ -65,7 +72,7 @@ httpServer.listen(serverPort, (err) => {
   }
 });
 
-// https.createServer(options, server).listen(config.https_web_port);
-// console.log('HTTPS server listen on port ' + config.https_web_port);
+https.createServer(options, server).listen(config.https_web_port);
+console.log(`HTTPS server listen on port ${config.https_web_port}`);
 
 module.exports = server;
