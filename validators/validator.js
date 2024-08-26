@@ -1,15 +1,15 @@
 // import validator class
-const joi = require("joi");
+const joi = require('joi');
 // import json web token library
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 // import json web token secret
-const formidable = require("formidable");
-const fileConfig = require("../config/fileConfig");
-const { secret } = require("../config");
+const formidable = require('formidable');
+const fileConfig = require('../config/fileConfig');
+const { secret } = require('../config');
 // import response class
-const response = require("../services/responseService");
+const response = require('../services/responseService');
 // import permission class
-const permission = require("../services/accessMapper");
+const permission = require('../services/accessMapper');
 
 // import formidable
 
@@ -17,11 +17,11 @@ const permission = require("../services/accessMapper");
 const getTokenFromHeader = (req) => {
   if (
     (req.headers.authorization &&
-      req.headers.authorization.split(" ")[0] === "Token") ||
+      req.headers.authorization.split(' ')[0] === 'Token') ||
     (req.headers.authorization &&
-      req.headers.authorization.split(" ")[0] === "Bearer")
+      req.headers.authorization.split(' ')[0] === 'Bearer')
   ) {
-    return req.headers.authorization.split(" ")[1];
+    return req.headers.authorization.split(' ')[1];
   }
   return null;
 };
@@ -71,7 +71,7 @@ module.exports.validateHeader = (grantedArray) => {
     // eslint-disable-next-line consistent-return
     return jwt.verify(getTokenFromHeader(req), secret, async (err, decoded) => {
       if (err) {
-        return response.customError("Invalid Token", res);
+        return response.customError('Invalid Token', res);
       }
       try {
         await permission.validity(decoded.role, grantedArray);

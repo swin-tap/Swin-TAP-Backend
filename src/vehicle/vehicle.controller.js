@@ -1,5 +1,5 @@
 // import service
-const service = require('./inspection-report.service');
+const service = require('./vehicle.service');
 // import response service to handle the output
 const {
   customError,
@@ -9,7 +9,21 @@ const {
 // GET all data set
 module.exports.getAll = async (req, res) => {
   try {
-    const output = await service.getAll();
+    const page = parseInt(req.query.page) || 1; // For pagination
+    const limit = parseInt(req.query.limit) || 10; // For pagination
+    const output = await service.getAll(page, limit);
+    return successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
+// GET all data set for requested inspection
+module.exports.getAllInspectionRequests = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1; // For pagination
+    const limit = parseInt(req.query.limit) || 10; // For pagination
+    const output = await service.getAllInspectionRequests(page, limit);
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);
@@ -49,6 +63,8 @@ module.exports.putData = async (req, res) => {
 // Delete single object
 module.exports.deleteData = async (req, res) => {
   try {
+    console.log(req.params.id);
+    console.log('req.params.id');
     const output = await service.DeleteSingleObject(req.params.id);
     return successWithData(output, res);
   } catch (error) {

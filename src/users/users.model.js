@@ -1,11 +1,11 @@
 // import mongoose
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 // declare model name
-const model_name = "user";
+const model_name = 'user';
 // import permission list
-const { seller } = require("../../config/permissionConfig").userRoles;
+const { seller } = require('../../config/permissionConfig').userRoles;
 // import user status
-const { userStatus } = require("../../config/permissionConfig");
+const { userStatus } = require('../../config/permissionConfig');
 
 // create schema
 const schema = new mongoose.Schema(
@@ -59,25 +59,25 @@ const schema = new mongoose.Schema(
     identity_verification_documents: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "file",
+        ref: 'file',
       },
     ],
     skill_verification_documents: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "file",
+        ref: 'file',
       },
     ],
     image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "file",
+      ref: 'file',
     },
     is_deleted: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
 // create modal

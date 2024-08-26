@@ -1,11 +1,8 @@
 // import validator class
-const joi = require("joi");
+const joi = require('joi');
 // import permission list
-const {
-  seller,
-  mechanic,
-  admin,
-} = require("../../config/permissionConfig").userRoles;
+const { seller, mechanic, admin } =
+  require('../../config/permissionConfig').userRoles;
 
 // add object schema
 module.exports.postScm = joi.object().keys({

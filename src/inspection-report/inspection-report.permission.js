@@ -1,23 +1,23 @@
 // import permission list
-const { admin, mechanic } = require("../../config/permissionConfig").userRoles;
+const { admin, mechanic } = require('../../config/permissionConfig').userRoles;
 
 module.exports.permission_list = {
   inspection_report_get_all: {
-    path: "/",
+    path: '/',
   },
   inspection_report_get_by_id: {
-    path: "/:id",
+    path: '/:id',
   },
   inspection_report_save: {
-    path: "/",
+    path: '/',
     granted: [admin, mechanic],
   },
   inspection_report_update: {
-    path: "/",
+    path: '/',
     granted: [admin, mechanic],
   },
   inspection_report_remove: {
-    path: "/:id",
+    path: '/:id',
     granted: [admin, mechanic],
   },
 };

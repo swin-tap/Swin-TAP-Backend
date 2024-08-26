@@ -1,15 +1,44 @@
 // import repository
-const repository = require('./inspection-report.repository');
+const repository = require('./vehicle.repository');
+
+// import from vehicle config
+const { inspection_status } = require('../../config/vehicleConfig');
 
 /**
  * GET all data set
  * @input
  * @output {array}
  */
-module.exports.getAll = async () => {
+module.exports.getAll = async (page, limit) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = await repository.findAll({});
+      const offset = (page - 1) * limit; // For pagination
+      const data = await repository.findAll({ offset, limit });
+      if (!data || data.length == 0) {
+        resolve([]);
+      } else {
+        resolve(data);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * GET data set with inspection_status as requested
+ * @input
+ * @output {array}
+ */
+module.exports.getAllInspectionRequests = async (page, limit) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const offset = (page - 1) * limit;
+      const data = await repository.findAll({
+        inspection_status: inspection_status.requested,
+        offset,
+        limit,
+      });
       if (!data || data.length == 0) {
         resolve([]);
       } else {
@@ -30,7 +59,6 @@ module.exports.getById = async (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await repository.findById({ _id: id });
-      console.log(data);
 
       if (!data || data.length == 0) {
         reject('No data found from given id');

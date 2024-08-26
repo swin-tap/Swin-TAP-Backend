@@ -1,5 +1,5 @@
 // import model
-const model = require("./inspection-report.model");
+const model = require('./inspection-report.model');
 
 // count
 module.exports.count = (query) => {
@@ -20,9 +20,9 @@ module.exports.findAll = (query) => {
   return new Promise((resolve, reject) => {
     model
       .find(query)
-      .populate("mechanic")
-      .populate("vehicle")
-      .populate("images")
+      .populate('mechanic')
+      .populate('vehicle')
+      .populate('images')
       .then((data) => {
         resolve(data);
       })
@@ -37,9 +37,9 @@ module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
     model
       .findById(query)
-      .populate("mechanic")
-      .populate("vehicle")
-      .populate("images")
+      .populate('mechanic')
+      .populate('vehicle')
+      .populate('images')
       .then((data) => {
         resolve(data);
       })

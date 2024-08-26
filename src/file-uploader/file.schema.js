@@ -1,6 +1,6 @@
-const joi = require("joi");
+const joi = require('joi');
 
-const fileConfig = require("../../config/fileConfig");
+const fileConfig = require('../../config/fileConfig');
 
 module.exports.commonFileValidation = joi
   .object()
@@ -27,7 +27,7 @@ module.exports.saveFile = joi.object().keys({
         .valid(fileConfig.imageProperties.map((size) => size.height))
         .required(),
     })
-    .when("file.type", {
+    .when('file.type', {
       is: [fileConfig.imageTypes.map((imageType) => imageType)],
       then: joi.array().required(),
     }),

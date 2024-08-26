@@ -1,11 +1,11 @@
-const jimp = require("jimp");
-const { v4: uuidv4 } = require("uuid");
+const jimp = require('jimp');
+const { v4: uuidv4 } = require('uuid');
 // import file reading service
-const fs = require("fs");
+const fs = require('fs');
 // import repository
-const repository = require("./files.repository");
+const repository = require('./files.repository');
 // import image config
-const fileConfig = require("../../config/fileConfig");
+const fileConfig = require('../../config/fileConfig');
 
 /**
  * Resize image
@@ -33,11 +33,11 @@ const deleteFileObject = async (id) => {
   const data = await repository.findfileById(id);
 
   if (!data) {
-    throw new Error("File not found.");
+    throw new Error('File not found.');
   }
 
   const extension = data.new_filename.substring(
-    data.new_filename.lastIndexOf(".") + 1,
+    data.new_filename.lastIndexOf('.') + 1,
     data.new_filename.length
   );
 
@@ -69,7 +69,7 @@ module.exports.saveFile = async (file) => {
   const oldPath = file.body.file.path;
   const originalFilename = file.body.file.name;
   const extension = originalFilename.substring(
-    originalFilename.lastIndexOf("."),
+    originalFilename.lastIndexOf('.'),
     originalFilename.length
   );
   const newFilename = `${uid}${extension}`;

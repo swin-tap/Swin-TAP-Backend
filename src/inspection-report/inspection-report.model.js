@@ -1,20 +1,26 @@
 // import mongoose
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 // declare model name
-const model_name = "inspection_report";
+const model_name = 'inspection_report';
 // status
-const { not_assign } = require("../../config/inspectionReportConfig").status;
+const { not_assign } = require('../../config/inspectionReportConfig').status;
 
 // create schema
 const schema = new mongoose.Schema(
   {
-    // vehicle: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "vehicle",
-    // },
+    vehicle: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'vehicle',
+      required: true,
+    },
+    inspection_time: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     mechanic: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
     },
     additional_note: {
       type: String,
@@ -23,7 +29,7 @@ const schema = new mongoose.Schema(
     images: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "file",
+        ref: 'file',
       },
     ],
     status: {
@@ -36,7 +42,7 @@ const schema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 );
 
 // create modal

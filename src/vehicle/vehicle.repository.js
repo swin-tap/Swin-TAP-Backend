@@ -1,5 +1,5 @@
 // import model
-const model = require('./users.model');
+const model = require('./vehicle.model');
 
 // count
 module.exports.count = (query) => {
@@ -16,19 +16,18 @@ module.exports.count = (query) => {
 };
 
 // find all
-module.exports.findAll = (query, queryParams = {}) => {
+module.exports.findAll = (query) => {
   return new Promise((resolve, reject) => {
-    // define limit and offset
-    const limit = parseInt(queryParams.limit);
-    const offset = parseInt(queryParams.offset);
-
+    const { offset, limit, ...filters } = query; // Extract offset and limit, and remove them from the query object and Separate filters from pagination parameters
     model
-      .find(query)
-      .skip(offset)
+      .find(filters)
+      .skip(offset) // For pagination
       .limit(limit)
-      .populate('identity_verification_documents')
-      .populate('skill_verification_documents')
-      .populate('image')
+      .populate({
+        path: 'seller_id', // The field in Vehicle schema that refers to seller
+        select: 'name email', // The fields you want to retrieve from the seller model
+      })
+      .populate('files')
       .then((data) => {
         resolve(data);
       })
@@ -43,9 +42,14 @@ module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
     model
       .findById(query)
-      .populate('identity_verification_documents')
-      .populate('skill_verification_documents')
-      .populate('image')
+      .populate({
+        path: 'seller_id', // The field in Vehicle schema that refers to seller
+        select: 'name email', // The fields you want to retrieve from the seller model
+      })
+      .populate('files')
+      .then((data) => {
+        resolve(data);
+      })
       .then((data) => {
         resolve(data);
       })
@@ -73,7 +77,7 @@ module.exports.save = (obj) => {
 module.exports.updateSingleObject = (query, obj) => {
   return new Promise((resolve, reject) => {
     model
-      .findOneAndUpdate(query, obj, { new: true, safe: true })
+      .findByIdAndUpdate(query, obj, { new: true, safe: true })
       .then((data) => {
         resolve(data);
       })
@@ -87,7 +91,7 @@ module.exports.updateSingleObject = (query, obj) => {
 module.exports.removeObject = (query) => {
   return new Promise((resolve, reject) => {
     model
-      .findOneAndDelete(query)
+      .findByIdAndDelete(query)
       .then((data) => {
         resolve(data);
       })
