@@ -98,7 +98,7 @@ module.exports.updateOneRecord = joi.object().keys({
       inspection_status.accepted,
       inspection_status.completed
     ),
-  address: joi.string().required(),
+  address: joi.string(),
   state: joi
     .string()
     .valid(
@@ -110,7 +110,6 @@ module.exports.updateOneRecord = joi.object().keys({
       located_state.TAS,
       located_state.VIC,
       located_state.WA
-    )
-    .required(),
-  postal_code: joi.number().required(),
+    ),
+  postal_code: joi.number(),
 });

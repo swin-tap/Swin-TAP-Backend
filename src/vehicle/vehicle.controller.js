@@ -11,7 +11,20 @@ module.exports.getAll = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // For pagination
     const limit = parseInt(req.query.limit) || 10; // For pagination
-    const output = await service.getAll(page, limit);
+    const brand = req.query.brand || null; // For filtering by brand
+    const model = req.query.model || null; // For filtering by model
+    const title = req.query.title || null; // For filtering by title
+    const minPrice = parseInt(req.query.minPrice) || null; // For min price
+    const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
+    const output = await service.getAll(
+      page,
+      limit,
+      brand,
+      model,
+      title,
+      minPrice,
+      maxPrice
+    );
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);
@@ -23,7 +36,20 @@ module.exports.getAllInspectionRequests = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // For pagination
     const limit = parseInt(req.query.limit) || 10; // For pagination
-    const output = await service.getAllInspectionRequests(page, limit);
+    const brand = req.query.brand || null; // For filtering by brand
+    const model = req.query.model || null; // For filtering by model
+    const title = req.query.title || null; // For filtering by title
+    const minPrice = parseInt(req.query.minPrice) || null; // For min price
+    const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
+    const output = await service.getAllInspectionRequests(
+      page,
+      limit,
+      brand,
+      model,
+      title,
+      minPrice,
+      maxPrice
+    );
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);

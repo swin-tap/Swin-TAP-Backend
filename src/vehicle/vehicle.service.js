@@ -9,11 +9,29 @@ const { inspection_status } = require('../../config/vehicleConfig');
  * @input
  * @output {array}
  */
-module.exports.getAll = async (page, limit) => {
+module.exports.getAll = async (
+  page,
+  limit,
+  brand,
+  model,
+  title,
+  minPrice,
+  maxPrice
+) => {
   return new Promise(async (resolve, reject) => {
+    console.log(brand, model, title);
     try {
       const offset = (page - 1) * limit; // For pagination
-      const data = await repository.findAll({ offset, limit });
+      const vehicle_model = model;
+      const data = await repository.findAll({
+        offset,
+        limit,
+        brand,
+        vehicle_model,
+        title,
+        minPrice,
+        maxPrice,
+      });
       if (!data || data.length == 0) {
         resolve([]);
       } else {
@@ -30,14 +48,28 @@ module.exports.getAll = async (page, limit) => {
  * @input
  * @output {array}
  */
-module.exports.getAllInspectionRequests = async (page, limit) => {
+module.exports.getAllInspectionRequests = async (
+  page,
+  limit,
+  brand,
+  model,
+  title,
+  minPrice,
+  maxPrice
+) => {
   return new Promise(async (resolve, reject) => {
     try {
       const offset = (page - 1) * limit;
+      const vehicle_model = model;
       const data = await repository.findAll({
         inspection_status: inspection_status.requested,
         offset,
         limit,
+        brand,
+        vehicle_model,
+        title,
+        minPrice,
+        maxPrice,
       });
       if (!data || data.length == 0) {
         resolve([]);
