@@ -15,6 +15,10 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    inspection_report: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "inspection_report",
+    },
     is_deleted: {
       type: Boolean,
       default: false,
