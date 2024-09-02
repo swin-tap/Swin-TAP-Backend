@@ -18,9 +18,42 @@ module.exports.count = (query) => {
 // find all
 module.exports.findAll = (query) => {
   return new Promise((resolve, reject) => {
-    const { offset, limit, ...filters } = query; // Extract offset and limit, and remove them from the query object and Separate filters from pagination parameters
+    const {
+      offset,
+      limit,
+      brand,
+      vehicle_model,
+      title,
+      minPrice,
+      maxPrice,
+      ...filters
+    } = query; // Extract offset and limit, and remove them from the query object and Separate filters from pagination parameters
+
+    // Add brand, model, and title to filters if they exist and using Case-insensitive regex search
+    if (brand) {
+      filters.brand = { $regex: new RegExp(brand, 'i') };
+    }
+    if (vehicle_model) {
+      filters.model = { $regex: new RegExp(vehicle_model, 'i') };
+    }
+    if (title) {
+      filters.title = { $regex: new RegExp(title, 'i') };
+    }
+
+    // Add price range to filters if minPrice, maxPrice are provided
+    if (minPrice !== null || maxPrice !== null) {
+      filters.price = {};
+      if (minPrice !== null) {
+        filters.price.$gte = minPrice; // Price greater than or equal to minPrice
+      }
+      if (maxPrice !== null) {
+        filters.price.$lte = maxPrice; // Price less than or equal to maxPrice
+      }
+    }
+
     model
       .find(filters)
+      .sort({ _id: -1 }) // Sort by _id in descending order (-1)
       .skip(offset) // For pagination
       .limit(limit)
       .populate({
