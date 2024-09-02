@@ -1,7 +1,13 @@
 const status = {
-  not_assign: 'unassigned',
-  pending: 'pending',
-  completed: 'completed',
+  not_assign: "unassigned",
+  pending: "pending",
+  completed: "completed",
 };
 
-module.exports = { status };
+const additional_request = {
+  road_worthy: "road worthy",
+  inspection: "inspection",
+  simple_check: "simple check",
+};
+
+module.exports = { status, additional_request };
