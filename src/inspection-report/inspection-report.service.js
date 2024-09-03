@@ -1,5 +1,5 @@
 // import repository
-const repository = require('./inspection-report.repository');
+const repository = require("./inspection-report.repository");
 
 /**
  * GET all data set
@@ -33,7 +33,7 @@ module.exports.getById = async (id) => {
       console.log(data);
 
       if (!data || data.length == 0) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
@@ -61,6 +61,26 @@ module.exports.save = async (obj) => {
 };
 
 /**
+ * POST object cancel vehicle inspection.
+ * @input {object}
+ * @output {object}
+ */
+module.exports.cancel = async (obj) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const data = await this.updateSingleObj({
+        ...obj,
+        status: "unassigned",
+        mechanic: null,
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
  * PUT object
  * @input {objId}
  * @output {object}
@@ -72,7 +92,7 @@ module.exports.updateSingleObj = async (obj) => {
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
       if (!data) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
@@ -92,7 +112,7 @@ module.exports.DeleteSingleObject = async (id) => {
     try {
       const data = await repository.removeObject({ _id: id });
       if (!data) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
