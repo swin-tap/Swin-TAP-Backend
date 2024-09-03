@@ -3,7 +3,7 @@ const joi = require("joi");
 // status
 const {
   not_assign,
-  pending,
+  assigned,
   completed,
 } = require("../../config/inspectionReportConfig").status;
 
@@ -26,7 +26,12 @@ module.exports.addOneRecord = joi.object().keys({
     .array()
     .items(joi.string().valid(...[road_worthy, inspection, simple_check])),
   checklist: joi.object().pattern(joi.string(), joi.string()),
-  status: joi.string().valid(not_assign, pending, completed),
+  status: joi.string().valid(not_assign, assigned, completed),
+});
+
+// cancel object schema
+module.exports.cancelInspection = joi.object().keys({
+  _id: joi.string().required(),
 });
 
 // update object schema
@@ -43,5 +48,5 @@ module.exports.updateOneRecord = joi.object().keys({
     .array()
     .items(joi.string().valid(...[road_worthy, inspection, simple_check])),
   checklist: joi.object().pattern(joi.string(), joi.string()),
-  status: joi.string().valid(not_assign, pending, completed),
+  status: joi.string().valid(not_assign, assigned, completed),
 });
