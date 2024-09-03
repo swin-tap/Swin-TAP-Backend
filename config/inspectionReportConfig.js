@@ -1,6 +1,6 @@
 const status = {
   not_assign: "unassigned",
-  pending: "pending",
+  assigned: "assigned",
   completed: "completed",
 };
 

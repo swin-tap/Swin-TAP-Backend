@@ -1,10 +1,10 @@
 // import service
-const service = require('./inspection-report.service');
+const service = require("./inspection-report.service");
 // import response service to handle the output
 const {
   customError,
   successWithData,
-} = require('../../services/responseService');
+} = require("../../services/responseService");
 
 // GET all data set
 module.exports.getAll = async (req, res) => {
@@ -30,6 +30,16 @@ module.exports.getOne = async (req, res) => {
 module.exports.postData = async (req, res) => {
   try {
     const output = await service.save(req.body);
+    successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
+// POST cancel single object
+module.exports.cancelData = async (req, res) => {
+  try {
+    const output = await service.cancel(req.body);
     successWithData(output, res);
   } catch (error) {
     return customError(error, res);
