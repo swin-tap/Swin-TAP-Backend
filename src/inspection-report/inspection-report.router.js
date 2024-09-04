@@ -4,6 +4,7 @@ const {
   addOneRecord,
   updateOneRecord,
   cancelInspection,
+  generateReport,
 } = require("./inspection-report.schema");
 // import controllers
 const {
@@ -13,6 +14,7 @@ const {
   putData,
   deleteData,
   cancelData,
+  generateDetailedReport,
 } = require("./inspection-report.controller");
 // import Validator class
 const { validateHeader, validateBody } = require("../../validators/validator");
@@ -27,6 +29,7 @@ const {
   inspection_report_update,
   inspection_report_remove,
   cancel_inspection,
+  generate_report,
 } = require("./inspection-report.permission").permission_list;
 
 router.route(inspection_report_get_all.path).get(getAll);
@@ -44,6 +47,14 @@ router
     validateHeader(cancel_inspection.granted),
     validateBody(cancelInspection),
     cancelData
+  );
+
+router
+  .route(generate_report.path)
+  .post(
+    validateHeader(generate_report.granted),
+    validateBody(generateReport),
+    generateDetailedReport
   );
 router
   .route(inspection_report_update.path)

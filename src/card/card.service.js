@@ -30,7 +30,6 @@ module.exports.getById = async (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await repository.findById({ _id: id });
-      console.log(data);
 
       if (!data || data.length == 0) {
         reject("No data found from given id");
