@@ -34,6 +34,11 @@ module.exports.cancelInspection = joi.object().keys({
   _id: joi.string().required(),
 });
 
+// generate report object schema
+module.exports.generateReport = joi.object().keys({
+  _id: joi.string().required(),
+});
+
 // update object schema
 module.exports.updateOneRecord = joi.object().keys({
   _id: joi.string().required(),

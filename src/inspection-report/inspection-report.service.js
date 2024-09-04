@@ -1,5 +1,10 @@
 // import repository
 const repository = require("./inspection-report.repository");
+const puppeteer = require("puppeteer");
+const {
+  inspection_report_template,
+  status,
+} = require("../../config/inspectionReportConfig");
 
 /**
  * GET all data set
@@ -30,7 +35,6 @@ module.exports.getById = async (id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await repository.findById({ _id: id });
-      console.log(data);
 
       if (!data || data.length == 0) {
         reject("No data found from given id");
@@ -74,6 +78,84 @@ module.exports.cancel = async (obj) => {
         mechanic: null,
       });
       resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * POST object generate report.
+ * @input {object}
+ * @output {object}
+ */
+module.exports.generateReport = async (obj) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // extract inspection data
+      const inspec_data = await this.getById(obj._id);
+
+      // check for valid inspection
+      if (
+        inspec_data.status !== status.assigned ||
+        inspec_data.status !== status.completed
+      ) {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+
+        // check for vehicle details
+        if (inspec_data.vehicle !== undefined && inspec_data.vehicle !== null) {
+          // extract vehicle details
+          const { brand, model, yom, address } = inspec_data.vehicle;
+
+          // extract inspection data
+          const { vehicle_rego, inspection_time } = inspec_data;
+          // mechanic details
+          const { name } = inspec_data.mechanic;
+
+          // inspection checklist
+          let inspect_body = "";
+
+          inspec_data.checklist.forEach((value, key) => {
+            inspect_body = `${inspect_body}
+               <div class="inspection-item">
+                <div class="comments"><strong>${key}:</strong> ${value}</div>
+            </div>`;
+          });
+
+          const html_body = inspection_report_template(
+            brand,
+            model,
+            yom,
+            vehicle_rego,
+            inspection_time,
+            name,
+            address,
+            inspect_body
+          );
+
+          // Set the content as HTML
+          await page.setContent(html_body);
+
+          // Generate PDF
+          await page.pdf({
+            path: `uploads/${obj._id}.pdf`,
+            format: "A4",
+          });
+          await browser.close();
+
+          // *** //
+          // send email about additional note.
+
+          resolve({
+            report_path: `${process.env.SERVER_PATH}uploads/${obj._id}.pdf`,
+          });
+        } else {
+          reject("No Vehicle assigned with inspection");
+        }
+      } else {
+        reject("Inspection not assigned with mechanic.");
+      }
     } catch (error) {
       reject(error);
     }
