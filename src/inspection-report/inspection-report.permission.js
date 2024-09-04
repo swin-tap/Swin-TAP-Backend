@@ -16,6 +16,10 @@ module.exports.permission_list = {
     path: "/unassign",
     granted: [admin, mechanic],
   },
+  generate_report: {
+    path: "/generate-report",
+    granted: [admin, mechanic],
+  },
   inspection_report_update: {
     path: "/",
     granted: [admin, mechanic],

@@ -46,6 +46,16 @@ module.exports.cancelData = async (req, res) => {
   }
 };
 
+// POST generate report
+module.exports.generateDetailedReport = async (req, res) => {
+  try {
+    const output = await service.generateReport(req.body);
+    successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
 // PUT single object
 module.exports.putData = async (req, res) => {
   try {
