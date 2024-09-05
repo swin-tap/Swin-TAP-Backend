@@ -28,6 +28,15 @@ module.exports.create = joi.object().keys({
   image: joi.string(),
 });
 
+// create object schema
+module.exports.contactUsSchema = joi.object().keys({
+  name: joi.string().required(),
+  email: joi.string().required(),
+  phone: joi.string().required(),
+  subject: joi.string().required(),
+  message: joi.string().required(),
+});
+
 // update object schema
 module.exports.putScm = joi.object().keys({
   _id: joi.string().required().max(24).min(24),

@@ -1,5 +1,5 @@
 // import service
-const service = require("./users.service");
+const service = require('./users.service');
 // import response service to handle the output
 const {
   successWithPaginationData,
@@ -7,7 +7,7 @@ const {
   successWithData,
   successConfirmation,
   errorConfirmation,
-} = require("../../services/responseService");
+} = require('../../services/responseService');
 
 // GET all data set
 module.exports.getAll = async (req, res) => {
@@ -43,6 +43,16 @@ module.exports.post = async (req, res) => {
 module.exports.createUser = async (req, res) => {
   try {
     const output = await service.create(req.body);
+    return successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
+// CONTACT US
+module.exports.contactUSController = async (req, res) => {
+  try {
+    const output = await service.contactUSService(req.body);
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);

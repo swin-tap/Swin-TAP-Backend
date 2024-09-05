@@ -1,5 +1,5 @@
 const templates = {};
-const config = require("../config/config");
+const config = require('../config/config');
 
 templates.welcomeEmail = function (firstName, code) {
   return `<table width="100%" cellpadding="0" cellspacing="0">
@@ -61,7 +61,7 @@ templates.welcomeEmail = function (firstName, code) {
 					  <td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
 						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
 							  © ${new Date().getFullYear()}
-							  <a style="color:#000" href="http://package-tracking.speralabs.com/" target="_blank">${
+							  <a style="color:#000" href="https://autoassure.me/" target="_blank">${
                   config.app_name
                 }</a>.
 							  All rights reserved.
@@ -125,7 +125,7 @@ templates.passwordReset = function (first_name) {
 						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
 							<p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
 								© ${new Date().getFullYear()}
-								<a style="color:#000" href="http://package-tracking.speralabs.com/" target="_blank">${
+								<a style="color:#000" href="https://autoassure.me/" target="_blank">${
                   config.app_name
                 }</a>.
 								All rights reserved.
@@ -190,7 +190,7 @@ templates.passwordForget = function (first_name, password) {
 						  <td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
 							  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
 								  © ${new Date().getFullYear()}
-								  <a style="color:#000" href="http://package-tracking.speralabs.com/" target="_blank">${
+								  <a style="color:#000" href="https://autoassure.me/" target="_blank">${
                     config.app_name
                   }</a>.
 								  All rights reserved.
@@ -277,7 +277,7 @@ templates.userCreation = function (name, email, password, code) {
 						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
 							<p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
 								© ${new Date().getFullYear()}
-								<a style="color:#000" href="http://package-tracking.speralabs.com/" target="_blank">${
+								<a style="color:#000" href="https://autoassure.me/" target="_blank">${
                   config.app_name
                 }</a>.
 								All rights reserved.
@@ -292,6 +292,124 @@ templates.userCreation = function (name, email, password, code) {
 	</tr>
 	</tbody>
 	</table>`;
+};
+
+templates.contactUs = function (name, email, phone, subject, message) {
+  return `<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+  
+			  <tr>
+				<td
+				  style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff"
+				  width="100%"
+				>
+				  <table
+					style="width:auto;max-width:570px;margin:0 auto;padding:0"
+					align="center"
+					width="570"
+					cellpadding="0"
+					cellspacing="0"
+				  >
+					<tbody>
+					  <tr>
+						<td
+						  style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px"
+						>
+						  <h1
+							style="margin-top:0;color:#2f3133;font-size:19px;text-align:left"
+						  >
+							Dear Support Team,
+						  </h1>
+  
+						  <p
+							style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em"
+						  >
+							I hope this message finds you well. I am writing to
+							reach out regarding the following:
+						  </p>
+						  <p
+							style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em"
+						  >
+							<strong>Full Name:</strong> ${name}<br />
+							<strong>Email Address:</strong> ${email}<br />
+							<strong>Phone Number:</strong> ${phone}<br />
+							<strong>Subject:</strong> ${subject}
+						  </p>
+  
+						  <p
+							style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em"
+						  >
+							Message: <br /> ${message}
+						  </p>
+  
+						  <p
+							style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em"
+						  >
+							I would appreciate your time and help in resolving
+							this matter and look forward to your response.
+						  </p>
+  
+						  <br />
+  
+						  <p
+							style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em"
+						  >
+							Best regards,<br />${name}
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+  
+			  <tr>
+				<td>
+				  <table
+					style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center"
+					align="center"
+					width="570"
+					cellpadding="0"
+					cellspacing="0"
+				  >
+					<tbody>
+					  <tr>
+						<td
+						  style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center"
+						>
+						  <p
+							style="margin-top:0;color:#000;font-size:12px;line-height:1.5em"
+						  >
+							© ${new Date().getFullYear()}
+							<a
+							  style="color:#000"
+							  href="https://autoassure.me/"
+							  target="_blank"
+							  >${config.app_name}</a
+							>. All rights reserved.
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
 };
 
 module.exports = templates;
