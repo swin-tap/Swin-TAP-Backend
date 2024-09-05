@@ -53,6 +53,22 @@ mailSender.forgetPassword = function (toAddress, first_name, password) {
   );
 };
 
+mailSender.contactUs = function (
+  toAddress,
+  name,
+  email,
+  phone,
+  subject,
+  message
+) {
+  const mailSubject = 'Contact Us';
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.contactUs(name, email, phone, subject, message)
+  );
+};
+
 /**
  * send invoice mail with attachment
  */
