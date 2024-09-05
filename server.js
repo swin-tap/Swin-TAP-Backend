@@ -1,54 +1,54 @@
-require('dotenv').config();
+require("dotenv").config();
 // Import cross origins
-const cors = require('cors');
+const cors = require("cors");
 // Import express
-const express = require('express');
+const express = require("express");
 // import MongoDB
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // import http
-const http = require('http');
+const http = require("http");
 
-const config = require('./config/config');
+const config = require("./config/config");
 // create express server
 const server = express();
 // Allow cross origins
 server.use(
   cors({
-    origin: 'https://autoassure.me',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: ["https://autoassure.me", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 // Set constant server port
 const serverPort = config.web_port;
-const fs = require('fs');
-const https = require('https');
-const directoryService = require('./services/directoryService');
+const fs = require("fs");
+const https = require("https");
+const directoryService = require("./services/directoryService");
 
 directoryService.createDirectories();
 
 // set routes
 // set routes
-server.use('/api', require('./routes'));
+server.use("/api", require("./routes"));
 
 server.use(express.static(__dirname));
 // check environment
 const { isProduction } = config;
- // private key
- let privateKey = fs.readFileSync(config.sslPrivetKeyPath);
- // certificate
- let certificate = fs.readFileSync(config.sslCertKeyPath);
- let ca = fs.readFileSync(config.sslCertAuthPath);
- // https options
- let options = {
-   key: privateKey,
-   cert: certificate,
-   ca: ca
- };
+// private key
+let privateKey = fs.readFileSync(config.sslPrivetKeyPath);
+// certificate
+let certificate = fs.readFileSync(config.sslCertKeyPath);
+let ca = fs.readFileSync(config.sslCertAuthPath);
+// https options
+let options = {
+  key: privateKey,
+  cert: certificate,
+  ca: ca,
+};
 
 // Database Connection initiation
 if (isProduction) {
- mongoose.connect(`mongodb:${config.database}`, {
+  mongoose.connect(`mongodb:${config.database}`, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
@@ -57,9 +57,9 @@ if (isProduction) {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
-  mongoose.set('debug', true);
-  mongoose.set('useCreateIndex', true);
-  mongoose.set('useFindAndModify', false);
+  mongoose.set("debug", true);
+  mongoose.set("useCreateIndex", true);
+  mongoose.set("useFindAndModify", false);
 }
 
 const httpServer = http.createServer(server);
@@ -72,7 +72,7 @@ httpServer.listen(serverPort, (err) => {
   }
 });
 
- https.createServer(options, server).listen(config.https_web_port);
- console.log('HTTPS server listen on port ' + config.https_web_port);
+https.createServer(options, server).listen(config.https_web_port);
+console.log("HTTPS server listen on port " + config.https_web_port);
 
 module.exports = server;
