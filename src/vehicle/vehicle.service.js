@@ -16,11 +16,11 @@ module.exports.getAll = async (
   model,
   title,
   postal_code,
+  sortPrice,
   minPrice,
   maxPrice
 ) => {
   return new Promise(async (resolve, reject) => {
-    console.log(brand, model, title);
     try {
       const offset = (page - 1) * limit; // For pagination
       const vehicle_model = model;
@@ -31,6 +31,7 @@ module.exports.getAll = async (
         vehicle_model,
         title,
         postal_code,
+        sortPrice,
         minPrice,
         maxPrice,
       });
@@ -57,6 +58,7 @@ module.exports.getAllInspectionRequests = async (
   model,
   title,
   postal_code,
+  sortPrice,
   minPrice,
   maxPrice
 ) => {
@@ -72,6 +74,7 @@ module.exports.getAllInspectionRequests = async (
         vehicle_model,
         title,
         postal_code,
+        sortPrice,
         minPrice,
         maxPrice,
       });

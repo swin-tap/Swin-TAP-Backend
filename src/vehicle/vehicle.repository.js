@@ -25,6 +25,7 @@ module.exports.findAll = (query) => {
       vehicle_model,
       title,
       postal_code,
+      sortPrice,
       minPrice,
       maxPrice,
       ...filters
@@ -57,7 +58,7 @@ module.exports.findAll = (query) => {
 
     model
       .find(filters)
-      .sort({ _id: -1 }) // Sort by _id in descending order (-1)
+      .sort(sortPrice ? { price: sortPrice } : { _id: -1 }) // Sort by _id or price in descending order (-1) or ascending order (1)
       .skip(offset) // For pagination
       .limit(limit)
       .populate({
