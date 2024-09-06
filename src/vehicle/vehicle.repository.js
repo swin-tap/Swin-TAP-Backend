@@ -24,6 +24,7 @@ module.exports.findAll = (query) => {
       brand,
       vehicle_model,
       title,
+      postal_code,
       minPrice,
       maxPrice,
       ...filters
@@ -38,6 +39,9 @@ module.exports.findAll = (query) => {
     }
     if (title) {
       filters.title = { $regex: new RegExp(title, 'i') };
+    }
+    if (postal_code > 0) {
+      filters.postal_code = postal_code;
     }
 
     // Add price range to filters if minPrice, maxPrice are provided

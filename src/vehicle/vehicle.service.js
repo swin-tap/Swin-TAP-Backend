@@ -15,6 +15,7 @@ module.exports.getAll = async (
   brand,
   model,
   title,
+  postal_code,
   minPrice,
   maxPrice
 ) => {
@@ -29,6 +30,7 @@ module.exports.getAll = async (
         brand,
         vehicle_model,
         title,
+        postal_code,
         minPrice,
         maxPrice,
       });
@@ -54,6 +56,7 @@ module.exports.getAllInspectionRequests = async (
   brand,
   model,
   title,
+  postal_code,
   minPrice,
   maxPrice
 ) => {
@@ -68,6 +71,7 @@ module.exports.getAllInspectionRequests = async (
         brand,
         vehicle_model,
         title,
+        postal_code,
         minPrice,
         maxPrice,
       });
