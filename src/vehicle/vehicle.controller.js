@@ -6,7 +6,7 @@ const {
   successWithData,
 } = require('../../services/responseService');
 
-// GET all data set
+// GET all data set - vehicles
 module.exports.getAll = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // For pagination
