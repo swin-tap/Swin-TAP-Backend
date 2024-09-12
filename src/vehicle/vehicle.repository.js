@@ -1,6 +1,9 @@
 // import model
 const model = require('./vehicle.model');
 
+// import from vehicle config
+const { inspection_status } = require('../../config/vehicleConfig');
+
 // count
 module.exports.count = (query) => {
   return new Promise((resolve, reject) => {
@@ -24,6 +27,9 @@ module.exports.findAll = (query) => {
       brand,
       vehicle_model,
       title,
+      inspection,
+      postal_code,
+      sortPrice,
       minPrice,
       maxPrice,
       ...filters
@@ -39,6 +45,12 @@ module.exports.findAll = (query) => {
     if (title) {
       filters.title = { $regex: new RegExp(title, 'i') };
     }
+    if (postal_code > 0) {
+      filters.postal_code = postal_code;
+    }
+    if (inspection) {
+      filters.inspection_status = inspection_status.completed;
+    }
 
     // Add price range to filters if minPrice, maxPrice are provided
     if (minPrice !== null || maxPrice !== null) {
@@ -53,7 +65,7 @@ module.exports.findAll = (query) => {
 
     model
       .find(filters)
-      .sort({ _id: -1 }) // Sort by _id in descending order (-1)
+      .sort(sortPrice ? { price: sortPrice } : { _id: -1 }) // Sort by _id or price in descending order (-1) or ascending order (1)
       .skip(offset) // For pagination
       .limit(limit)
       .populate({

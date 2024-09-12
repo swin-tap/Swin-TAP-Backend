@@ -14,6 +14,9 @@ module.exports.getAll = async (req, res) => {
     const brand = req.query.brand || null; // For filtering by brand
     const model = req.query.model || null; // For filtering by model
     const title = req.query.title || null; // For filtering by title
+    const inspection = req.query.inspection || false; // For filtering inspected vehicles
+    const sortPrice = parseInt(req.query.sortPrice) || null; // For request custom sorting
+    const postal_code = parseInt(req.query.postalCode) || null; // For filtering by postal code
     const minPrice = parseInt(req.query.minPrice) || null; // For min price
     const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
     const output = await service.getAll(
@@ -22,6 +25,9 @@ module.exports.getAll = async (req, res) => {
       brand,
       model,
       title,
+      inspection,
+      postal_code,
+      sortPrice,
       minPrice,
       maxPrice
     );
@@ -39,6 +45,8 @@ module.exports.getAllInspectionRequests = async (req, res) => {
     const brand = req.query.brand || null; // For filtering by brand
     const model = req.query.model || null; // For filtering by model
     const title = req.query.title || null; // For filtering by title
+    const sortPrice = parseInt(req.query.sortPrice) || null; // For request custom sorting
+    const postal_code = parseInt(req.query.postalCode) || null; // For filtering by postal code
     const minPrice = parseInt(req.query.minPrice) || null; // For min price
     const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
     const output = await service.getAllInspectionRequests(
@@ -47,6 +55,8 @@ module.exports.getAllInspectionRequests = async (req, res) => {
       brand,
       model,
       title,
+      postal_code,
+      sortPrice,
       minPrice,
       maxPrice
     );

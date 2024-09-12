@@ -42,12 +42,17 @@ const schema = new mongoose.Schema(
     condition: {
       type: String,
       required: true,
-      enum: [condition.new, condition.used], // Only these values are allowed
+      enum: [condition.brand_new, condition.used, condition.reconditioned], // Only these values are allowed
     },
     transmission: {
       type: String,
       required: true,
-      enum: [transmission.auto, transmission.manual, transmission.triptonic], // Only these values are allowed
+      enum: [
+        transmission.automatic,
+        transmission.manual,
+        transmission.triptonic,
+        transmission.other,
+      ], // Only these values are allowed
     },
     body_type: {
       type: String,
@@ -62,6 +67,7 @@ const schema = new mongoose.Schema(
         fuel_type.gas,
         fuel_type.hybrid,
         fuel_type.electric,
+        fuel_type.other,
       ], // Only these values are allowed
     },
     mileage: {

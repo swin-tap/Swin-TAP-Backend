@@ -1,13 +1,14 @@
 // import validator Schemas
-const express = require("express");
+const express = require('express');
 const {
   create,
   postScm,
   loginScm,
   putScm,
+  contactUsSchema,
   resetPasswordScm,
   forgetPasswordScm,
-} = require("./users.schema");
+} = require('./users.schema');
 // import controllers
 const {
   getAll,
@@ -18,11 +19,12 @@ const {
   deleteObject,
   resetPassword,
   forgetPassword,
+  contactUSController,
   confUser,
   createUser,
-} = require("./users.controller");
+} = require('./users.controller');
 // import Validator class
-const { validateBody, validateHeader } = require("../../validators/validator");
+const { validateBody, validateHeader } = require('../../validators/validator');
 // Import Express
 // user router
 const router = express.Router();
@@ -32,13 +34,14 @@ const {
   users_get_all,
   users_save,
   users_create,
+  contact_us,
   users_update,
   users_remove,
   users_login_email,
   users_confirmation,
   users_reset_password,
   users_forget_password,
-} = require("./users.permission").permission_list;
+} = require('./users.permission').permission_list;
 
 // get all
 router
@@ -49,6 +52,10 @@ router.route(users_get_by_id.path).get(getOne);
 // post object
 router.route(users_save.path).post(validateBody(postScm), post);
 // create object
+router
+  .route(contact_us.path)
+  .post(validateBody(contactUsSchema), contactUSController);
+// contact us
 router
   .route(users_create.path)
   .post(validateHeader(users_create.granted), validateBody(create), createUser);
