@@ -16,10 +16,18 @@ module.exports.addOneRecord = joi.object().keys({
   brand: joi.string().required(),
   model: joi.string().required(),
   yom: joi.number().required(),
-  condition: joi.string().valid(condition.new, condition.used).required(),
+  condition: joi
+    .string()
+    .valid(condition.brand_new, condition.used, condition.reconditioned)
+    .required(),
   transmission: joi
     .string()
-    .valid(transmission.auto, transmission.manual, transmission.triptonic)
+    .valid(
+      transmission.automatic,
+      transmission.manual,
+      transmission.triptonic,
+      transmission.other
+    )
     .required(),
   body_type: joi.string().required(),
   fuel_type: joi
