@@ -79,10 +79,17 @@ module.exports.updateOneRecord = joi.object().keys({
   brand: joi.string(),
   model: joi.string(),
   yom: joi.number(), // Year of manufacture as a number
-  condition: joi.string().valid(condition.new, condition.used),
+  condition: joi
+    .string()
+    .valid(condition.brand_new, condition.used, condition.reconditioned),
   transmission: joi
     .string()
-    .valid(transmission.auto, transmission.manual, transmission.triptonic),
+    .valid(
+      transmission.automatic,
+      transmission.manual,
+      transmission.triptonic,
+      transmission.other
+    ),
   body_type: joi.string(),
   fuel_type: joi
     .string()
