@@ -1,10 +1,14 @@
 // import service
 const service = require('./vehicle.service');
+const inspection_report_service = require('../inspection-report/inspection-report.service');
+
 // import response service to handle the output
 const {
   customError,
   successWithData,
 } = require('../../services/responseService');
+
+const { inspection_status } = require('../../config/vehicleConfig');
 
 // GET all data set - vehicles
 module.exports.getAll = async (req, res) => {
@@ -77,10 +81,36 @@ module.exports.getOne = async (req, res) => {
 };
 
 // POST single object
-module.exports.postData = async (req, res) => {
+module.exports.postData = (req, res) => {
   try {
-    const output = await service.save(req.body);
-    successWithData(output, res);
+    const { inspection_report, ...filteredBody } = req.body;
+
+    // Save filteredBody first
+    service
+      .save(filteredBody)
+      .then(async (output) => {
+        // Clone the output object to change it from immutable
+        const finalOutput = { ...output._doc };
+        if (output.inspection_status === inspection_status.requested) {
+          // Modify the vehicle field in the inspection_report
+          inspection_report.vehicle = output.id;
+
+          // Save inspection_report
+          const report_output = await inspection_report_service.save(
+            inspection_report
+          );
+
+          // Add report_output to finalOutput as inspection_report
+          finalOutput.inspection_report = report_output;
+
+          successWithData(finalOutput, res);
+        } else {
+          successWithData(output, res);
+        }
+      })
+      .catch((error) => {
+        return customError(error, res);
+      });
   } catch (error) {
     return customError(error, res);
   }
