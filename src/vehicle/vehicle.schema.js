@@ -69,6 +69,7 @@ module.exports.addOneRecord = joi.object().keys({
     )
     .required(),
   postal_code: joi.number().required(),
+  inspection_report: joi.any(),
 });
 
 // update object schema
