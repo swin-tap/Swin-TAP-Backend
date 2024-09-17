@@ -21,6 +21,7 @@ module.exports.findAll = (query) => {
     model
       .find(query)
       .populate('mechanic')
+      .populate('seller')
       .populate('vehicle')
       .populate('images')
       .then((data) => {
@@ -38,6 +39,7 @@ module.exports.findById = (query) => {
     model
       .findById(query)
       .populate('mechanic')
+      .populate('seller')
       .populate('vehicle')
       .populate('images')
       .then((data) => {

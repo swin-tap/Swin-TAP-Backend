@@ -69,6 +69,80 @@ mailSender.contactUs = function (
   );
 };
 
+mailSender.inspectionAdditionalInformation = function (
+  toAddress,
+  customerName,
+  vehicleModel,
+  inspectionDate,
+  note,
+  mechanicName
+) {
+  const mailSubject = 'Additional Car Repaire Required';
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.additionalDetails(
+      customerName,
+      vehicleModel,
+      inspectionDate,
+      note,
+      mechanicName
+    )
+  );
+};
+
+mailSender.acceptInspection = function (
+  toAddress,
+  customerName,
+  bookingNumber,
+  bookingDate,
+  mechanicName
+) {
+  const mailSubject = 'Your Inspection is Accepted by Mechanic';
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.inspectionAcceptance(
+      customerName,
+      bookingNumber,
+      bookingDate,
+      mechanicName
+    )
+  );
+};
+
+mailSender.cancelInspection = function (
+  toAddress,
+  customerName,
+  bookingNumber,
+  bookingDate
+) {
+  const mailSubject = 'Your Inspection is Cancelled';
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.inspectionCancel(customerName, bookingNumber, bookingDate)
+  );
+};
+
+mailSender.paymentForInspection = function (
+  toAddress,
+  bookingNumber,
+  currencyType,
+  paymentAmount
+) {
+  const mailSubject = 'Succesful Payment for Inspection Booking';
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.paymentForInspection(
+      bookingNumber,
+      currencyType,
+      paymentAmount
+    )
+  );
+};
+
 /**
  * send invoice mail with attachment
  */

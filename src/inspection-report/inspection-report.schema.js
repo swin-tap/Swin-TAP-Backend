@@ -1,23 +1,18 @@
 // import validator class
-const joi = require("joi");
+const joi = require('joi');
 // status
-const {
-  not_assign,
-  assigned,
-  completed,
-} = require("../../config/inspectionReportConfig").status;
+const { not_assign, assigned, completed } =
+  require('../../config/inspectionReportConfig').status;
 
-const {
-  road_worthy,
-  inspection,
-  simple_check,
-} = require("../../config/inspectionReportConfig").additional_request;
+const { road_worthy, inspection, simple_check } =
+  require('../../config/inspectionReportConfig').additional_request;
 
 // add object schema
 module.exports.addOneRecord = joi.object().keys({
   mechanic: joi.string(),
-  vehicle: joi.string(),
-  inspection_time: joi.string(),
+  seller: joi.string().required(),
+  vehicle: joi.string().required(),
+  inspection_time: joi.string().required(),
   additional_note: joi.string(),
   images: joi.array().items(joi.string()),
   vehicle_rego: joi.string(),
@@ -44,6 +39,7 @@ module.exports.updateOneRecord = joi.object().keys({
   _id: joi.string().required(),
   mechanic: joi.string(),
   vehicle: joi.string(),
+  seller: joi.string(),
   inspection_time: joi.string(),
   additional_note: joi.string(),
   images: joi.array().items(joi.string()),
