@@ -20,69 +20,76 @@ module.exports.count = (query) => {
 
 // find all
 module.exports.findAll = (query) => {
-  return new Promise((resolve, reject) => {
-    const {
-      offset,
-      limit,
-      brand,
-      vehicle_model,
-      title,
-      inspection,
-      postal_code,
-      sortPrice,
-      sortDate,
-      minPrice,
-      maxPrice,
-      ...filters
-    } = query; // Extract offset and limit, and remove them from the query object and Separate filters from pagination parameters
+  return new Promise(async (resolve, reject) => {
+    try {
+      const {
+        offset,
+        limit,
+        brand,
+        vehicle_model,
+        title,
+        inspection,
+        postal_code,
+        sortPrice,
+        sortDate,
+        minPrice,
+        maxPrice,
+        ...filters
+      } = query; // Extract pagination and other parameters
 
-    // Add brand, model, and title to filters if they exist and using Case-insensitive regex search
-    if (brand) {
-      filters.brand = { $regex: new RegExp(brand, 'i') };
-    }
-    if (vehicle_model) {
-      filters.model = { $regex: new RegExp(vehicle_model, 'i') };
-    }
-    if (title) {
-      filters.title = { $regex: new RegExp(title, 'i') };
-    }
-    if (postal_code > 0) {
-      filters.postal_code = postal_code;
-    }
-    if (inspection) {
-      filters.inspection_status = inspection_status.completed;
-    }
-
-    // Add price range to filters if minPrice, maxPrice are provided
-    if (minPrice !== null || maxPrice !== null) {
-      filters.price = {};
-      if (minPrice !== null) {
-        filters.price.$gte = minPrice; // Price greater than or equal to minPrice
+      // Add brand, model, and title to filters if they exist, using Case-insensitive regex search
+      if (brand) {
+        filters.brand = { $regex: new RegExp(brand, 'i') };
       }
-      if (maxPrice !== null) {
-        filters.price.$lte = maxPrice; // Price less than or equal to maxPrice
+      if (vehicle_model) {
+        filters.model = { $regex: new RegExp(vehicle_model, 'i') };
       }
-    }
+      if (title) {
+        filters.title = { $regex: new RegExp(title, 'i') };
+      }
+      if (postal_code > 0) {
+        filters.postal_code = postal_code;
+      }
+      if (inspection) {
+        filters.inspection_status = inspection_status.completed;
+      }
 
-    model
-      .find(filters)
-      .sort(sortPrice ? { price: sortPrice } : { _id: sortDate || -1 }) // Sort by _id or price in descending order (-1) or ascending order (1)
-      .skip(offset) // For pagination
-      .limit(limit)
-      .populate({
-        path: 'seller_id', // The field in Vehicle schema that refers to seller
-        select: 'name email', // The fields you want to retrieve from the seller model
-      })
-      .populate('files')
-      .then((data) => {
-        resolve(data);
-      })
-      .catch((err) => {
-        reject(err);
+      // Add price range to filters if minPrice, maxPrice are provided
+      if (minPrice !== null || maxPrice !== null) {
+        filters.price = {};
+        if (minPrice !== null) {
+          filters.price.$gte = minPrice; // Price greater than or equal to minPrice
+        }
+        if (maxPrice !== null) {
+          filters.price.$lte = maxPrice; // Price less than or equal to maxPrice
+        }
+      }
+
+      // Count the total number of matching vehicles (without pagination)
+      const totalCount = await model.countDocuments(filters);
+
+      // Fetch paginated data
+      const data = await model
+        .find(filters)
+        .sort(sortPrice ? { price: sortPrice } : { _id: sortDate || -1 }) // Sort by _id or price in descending order (-1) or ascending order (1)
+        .skip(offset) // For pagination
+        .limit(limit)
+        .populate({
+          path: 'seller_id', // The field in Vehicle schema that refers to seller
+          select: 'name email', // The fields you want to retrieve from the seller model
+        })
+        .populate('files');
+
+      // Return total count and the data
+      resolve({
+        totalCount,
+        data,
       });
+    } catch (err) {
+      reject(err);
+    }
   });
 };
-
 // get By Id
 module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
