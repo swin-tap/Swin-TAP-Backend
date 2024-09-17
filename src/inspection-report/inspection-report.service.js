@@ -1,10 +1,13 @@
 // import repository
-const repository = require("./inspection-report.repository");
-const puppeteer = require("puppeteer");
+const puppeteer = require('puppeteer');
+const repository = require('./inspection-report.repository');
 const {
   inspection_report_template,
   status,
-} = require("../../config/inspectionReportConfig");
+} = require('../../config/inspectionReportConfig');
+const userService = require('../users/users.service');
+// import mail service
+const mailSender = require('../../mailHub/miler');
 
 /**
  * GET all data set
@@ -37,7 +40,7 @@ module.exports.getById = async (id) => {
       const data = await repository.findById({ _id: id });
 
       if (!data || data.length == 0) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
@@ -74,9 +77,18 @@ module.exports.cancel = async (obj) => {
     try {
       const data = await this.updateSingleObj({
         ...obj,
-        status: "unassigned",
+        status: 'unassigned',
         mechanic: null,
       });
+
+      // extract inspection data
+      const inspec_data = await this.getById(...obj);
+      // extract inspection data
+      const { _id, inspection_time } = inspec_data;
+      const { name, email } = inspec_data.seller;
+      // send email to seller about inspection cancelation.
+      await mailSender.cancelInspection(email, name, _id, inspection_time);
+
       resolve(data);
     } catch (error) {
       reject(error);
@@ -103,58 +115,67 @@ module.exports.generateReport = async (obj) => {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
 
-        // check for vehicle details
-        if (inspec_data.vehicle !== undefined && inspec_data.vehicle !== null) {
-          // extract vehicle details
-          const { brand, model, yom, address } = inspec_data.vehicle;
+        // extract vehicle details
+        const { brand, model, yom, address } = inspec_data.vehicle;
 
-          // extract inspection data
-          const { vehicle_rego, inspection_time } = inspec_data;
-          // mechanic details
-          const { name } = inspec_data.mechanic;
+        // extract inspection data
+        const { vehicle_rego, inspection_time } = inspec_data;
+        // mechanic details
+        const { name } = inspec_data.mechanic;
 
-          // inspection checklist
-          let inspect_body = "";
+        // send email related to additional mechanic notes
+        if (inspec_data.additional_note) {
+          const sellerData = inspec_data.seller;
 
-          inspec_data.checklist.forEach((value, key) => {
-            inspect_body = `${inspect_body}
+          await mailSender.inspectionAdditionalInformation(
+            sellerData.email,
+            sellerData.name,
+            `${brand} ${model}`,
+            inspection_time,
+            inspec_data.additional_note,
+            name
+          );
+        }
+
+        // inspection checklist
+        let inspect_body = '';
+
+        inspec_data.checklist.forEach((value, key) => {
+          inspect_body = `${inspect_body}
                <div class="inspection-item">
                 <div class="comments"><strong>${key}:</strong> ${value}</div>
             </div>`;
-          });
+        });
 
-          const html_body = inspection_report_template(
-            brand,
-            model,
-            yom,
-            vehicle_rego,
-            inspection_time,
-            name,
-            address,
-            inspect_body
-          );
+        const html_body = inspection_report_template(
+          brand,
+          model,
+          yom,
+          vehicle_rego,
+          inspection_time,
+          name,
+          address,
+          inspect_body
+        );
 
-          // Set the content as HTML
-          await page.setContent(html_body);
+        // Set the content as HTML
+        await page.setContent(html_body);
 
-          // Generate PDF
-          await page.pdf({
-            path: `uploads/${obj._id}.pdf`,
-            format: "A4",
-          });
-          await browser.close();
+        // Generate PDF
+        await page.pdf({
+          path: `uploads/${obj._id}.pdf`,
+          format: 'A4',
+        });
+        await browser.close();
 
-          // *** //
-          // send email about additional note.
+        // *** //
+        // send email about additional note.
 
-          resolve({
-            report_path: `${process.env.SERVER_PATH}uploads/${obj._id}.pdf`,
-          });
-        } else {
-          reject("No Vehicle assigned with inspection");
-        }
+        resolve({
+          report_path: `${process.env.SERVER_PATH}uploads/${obj._id}.pdf`,
+        });
       } else {
-        reject("Inspection not assigned with mechanic.");
+        reject('Inspection not assigned with mechanic.');
       }
     } catch (error) {
       reject(error);
@@ -174,8 +195,27 @@ module.exports.updateSingleObj = async (obj) => {
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
       if (!data) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
+        // check for inspection status update
+        if (obj.status && obj.status === status.assigned) {
+          if (data.mechanic) {
+            // extract inspection data
+            const inspec_data = await this.getById(id);
+            // extract inspection data
+            const { inspection_time } = inspec_data;
+            const { seller } = inspec_data;
+            const { mechanic } = inspec_data;
+            // send email to seller about inspection acceptance.
+            await mailSender.acceptInspection(
+              seller.email,
+              seller.name,
+              id,
+              inspection_time,
+              mechanic.name
+            );
+          }
+        }
         resolve(data);
       }
     } catch (error) {
@@ -194,7 +234,7 @@ module.exports.DeleteSingleObject = async (id) => {
     try {
       const data = await repository.removeObject({ _id: id });
       if (!data) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
