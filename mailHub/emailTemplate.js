@@ -412,4 +412,296 @@ templates.contactUs = function (name, email, phone, subject, message) {
   `;
 };
 
+templates.additionalDetails = function (
+  customerName,
+  vehicleModel,
+  inspectionDate,
+  note,
+  mechanicName
+) {
+  return `<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+			  <tr>
+				<td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
+						  <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
+							Dear ${customerName},
+						  </h1>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							I hope you're doing well. Please find the details of your recent vehicle inspection below.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							<strong>Vehicle Make/Model:</strong> ${vehicleModel}<br />
+							<strong>Inspection Date:</strong> ${inspectionDate}
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							<strong>Mechanic's Note:</strong><br />
+							- ${note}
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							Please let me know if you have any questions or need further assistance.
+						  </p>
+						  <br />
+						  <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
+							Best regards,<br />${mechanicName}<br />AutoAssure Team
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
+						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
+							© ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
+    config.app_name
+  }</a>. All rights reserved.
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
+};
+
+templates.inspectionCancel = function (
+  customerName,
+  bookingNumber,
+  bookingDate
+) {
+  return `<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+			  <tr>
+				<td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
+						  <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
+							Dear ${customerName},
+						  </h1>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							We regret to inform you that your vehicle inspection booking (Booking Number: <strong>${bookingNumber}</strong>) scheduled for <strong>${bookingDate}</strong> has been cancelled by the assigned mechanic.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							However, we are currently reassigning your inspection to another mechanic, and you will be notified of the new appointment soon.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							We apologize for any inconvenience and appreciate your patience. If you have any questions, feel free to reach out to us.
+						  </p>
+						  <br />
+						  <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
+							Best regards,<br />AutoAssure Team
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
+						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
+							© ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
+    config.app_name
+  }</a>. All rights reserved.
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
+};
+
+templates.inspectionAcceptance = function (
+  customerName,
+  bookingNumber,
+  bookingDate,
+  mechanicName
+) {
+  return `<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+			  <tr>
+				<td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
+						  <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
+							Dear ${customerName},
+						  </h1>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							We are pleased to inform you that your vehicle inspection booking (Booking Number: <strong>${bookingNumber}</strong>) scheduled for <strong>${bookingDate}</strong> has been accepted by our mechanic.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							Your inspection will be carried out by <strong>${mechanicName}</strong>. Please be ready for your scheduled inspection on the mentioned date.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							If you have any questions or need to reschedule, feel free to contact us.
+						  </p>
+						  <br />
+						  <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
+							Best regards,<br />AutoAssure Team
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
+						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
+							© ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
+    config.app_name
+  }</a>. All rights reserved.
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
+};
+
+templates.paymentForInspection = function (
+  bookingNumber,
+  currencyType,
+  paymentAmount
+) {
+  return `<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+			  <tr>
+				<td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
+						  <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
+							Dear Customer,
+						  </h1>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							We are pleased to confirm that your payment for the vehicle inspection (Booking Number: <strong>${bookingNumber}</strong>) has been successfully processed.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							<strong>Payment Details:</strong><br />
+							Amount Paid: ${currencyType}. ${paymentAmount} 
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							If you have any questions or need further assistance, feel free to contact us.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							Thank you for choosing AutoAssure. We appreciate your business!
+						  </p>
+						  <br />
+						  <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
+							Best regards,<br />AutoAssure Team
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
+						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
+							© ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
+    config.app_name
+  }</a>. All rights reserved.
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
+};
+
 module.exports = templates;
