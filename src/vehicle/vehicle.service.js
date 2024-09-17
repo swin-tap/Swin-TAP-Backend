@@ -18,6 +18,7 @@ module.exports.getAll = async (
   inspection,
   postal_code,
   sortPrice,
+  sortDate,
   minPrice,
   maxPrice
 ) => {
@@ -34,6 +35,7 @@ module.exports.getAll = async (
         inspection,
         postal_code,
         sortPrice,
+        sortDate,
         minPrice,
         maxPrice,
       });
@@ -61,6 +63,7 @@ module.exports.getAllInspectionRequests = async (
   title,
   postal_code,
   sortPrice,
+  sortDate,
   minPrice,
   maxPrice
 ) => {
@@ -77,6 +80,7 @@ module.exports.getAllInspectionRequests = async (
         title,
         postal_code,
         sortPrice,
+        sortDate,
         minPrice,
         maxPrice,
       });
