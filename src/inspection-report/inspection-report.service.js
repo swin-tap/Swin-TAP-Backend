@@ -1,4 +1,5 @@
 // import repository
+const vehicleService = require("../vehicle/vehicle.service");
 const puppeteer = require("puppeteer");
 const repository = require("./inspection-report.repository");
 const {
@@ -8,6 +9,7 @@ const {
 const userService = require("../users/users.service");
 // import mail service
 const mailSender = require("../../mailHub/miler");
+const { inspection_status } = require("../../config/vehicleConfig");
 
 /**
  * GET all data set
@@ -194,6 +196,7 @@ module.exports.updateSingleObj = async (obj) => {
     delete obj._id;
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
+
       if (!data) {
         reject("No data found from given id");
       } else {
@@ -216,6 +219,23 @@ module.exports.updateSingleObj = async (obj) => {
             );
           }
         }
+        // update vehicle status
+        if (obj.status && data.vehicle) {
+          const vehicle_update_object = {
+            _id: data.vehicle,
+            inspection_status:
+              obj.status === status.assigned
+                ? inspection_status.accepted
+                : obj.status === status.completed
+                ? inspection_status.completed
+                : undefined,
+          };
+
+          if (vehicle_update_object.inspection_status) {
+            await vehicleService.updateSingleObj(vehicle_update_object);
+          }
+        }
+
         resolve(data);
       }
     } catch (error) {

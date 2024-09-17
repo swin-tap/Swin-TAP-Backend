@@ -1,20 +1,23 @@
 const condition = {
-  new: 'new',
-  used: 'used',
+  brand_new: 'Brand New',
+  used: 'Used',
+  reconditioned: 'Reconditioned',
 };
 
 const transmission = {
-  auto: 'auto',
-  manual: 'manual',
-  triptonic: 'triptonic',
+  automatic: 'Automatic',
+  manual: 'Manual',
+  triptonic: 'Triptonic',
+  other: 'Other',
 };
 
 const fuel_type = {
-  petrol: 'petrol',
-  diesel: 'diesel',
-  gas: 'gas',
-  hybrid: 'hybrid',
-  electric: 'electric',
+  petrol: 'Petrol',
+  diesel: 'Diesel',
+  gas: 'Gas',
+  hybrid: 'Hybrid',
+  electric: 'Electric',
+  other: 'Other',
 };
 
 const inspection_status = {

@@ -1,12 +1,16 @@
 // import service
 const service = require('./vehicle.service');
+const inspection_report_service = require('../inspection-report/inspection-report.service');
+
 // import response service to handle the output
 const {
   customError,
   successWithData,
 } = require('../../services/responseService');
 
-// GET all data set
+const { inspection_status } = require('../../config/vehicleConfig');
+
+// GET all data set - vehicles
 module.exports.getAll = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // For pagination
@@ -14,6 +18,10 @@ module.exports.getAll = async (req, res) => {
     const brand = req.query.brand || null; // For filtering by brand
     const model = req.query.model || null; // For filtering by model
     const title = req.query.title || null; // For filtering by title
+    const inspection = req.query.inspection || false; // For filtering inspected vehicles
+    const sortPrice = parseInt(req.query.sortPrice) || null; // For request custom sorting
+    const sortDate = parseInt(req.query.sortDate) || null; // For request custom sorting
+    const postal_code = parseInt(req.query.postalCode) || null; // For filtering by postal code
     const minPrice = parseInt(req.query.minPrice) || null; // For min price
     const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
     const output = await service.getAll(
@@ -22,6 +30,10 @@ module.exports.getAll = async (req, res) => {
       brand,
       model,
       title,
+      inspection,
+      postal_code,
+      sortPrice,
+      sortDate,
       minPrice,
       maxPrice
     );
@@ -39,6 +51,9 @@ module.exports.getAllInspectionRequests = async (req, res) => {
     const brand = req.query.brand || null; // For filtering by brand
     const model = req.query.model || null; // For filtering by model
     const title = req.query.title || null; // For filtering by title
+    const sortPrice = parseInt(req.query.sortPrice) || null; // For request custom sorting
+    const sortDate = parseInt(req.query.sortDate) || null; // For request custom sorting
+    const postal_code = parseInt(req.query.postalCode) || null; // For filtering by postal code
     const minPrice = parseInt(req.query.minPrice) || null; // For min price
     const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
     const output = await service.getAllInspectionRequests(
@@ -47,6 +62,9 @@ module.exports.getAllInspectionRequests = async (req, res) => {
       brand,
       model,
       title,
+      postal_code,
+      sortPrice,
+      sortDate,
       minPrice,
       maxPrice
     );
@@ -67,10 +85,36 @@ module.exports.getOne = async (req, res) => {
 };
 
 // POST single object
-module.exports.postData = async (req, res) => {
+module.exports.postData = (req, res) => {
   try {
-    const output = await service.save(req.body);
-    successWithData(output, res);
+    const { inspection_report, ...filteredBody } = req.body;
+
+    // Save filteredBody first
+    service
+      .save(filteredBody)
+      .then(async (output) => {
+        // Clone the output object to change it from immutable
+        const finalOutput = { ...output._doc };
+        if (output.inspection_status === inspection_status.requested) {
+          // Modify the vehicle field in the inspection_report
+          inspection_report.vehicle = output.id;
+
+          // Save inspection_report
+          const report_output = await inspection_report_service.save(
+            inspection_report
+          );
+
+          // Add report_output to finalOutput as inspection_report
+          finalOutput.inspection_report = report_output;
+
+          successWithData(finalOutput, res);
+        } else {
+          successWithData(output, res);
+        }
+      })
+      .catch((error) => {
+        return customError(error, res);
+      });
   } catch (error) {
     return customError(error, res);
   }
