@@ -11,15 +11,39 @@ const userService = require("../users/users.service");
 const mailSender = require("../../mailHub/miler");
 const { inspection_status } = require("../../config/vehicleConfig");
 
+// import search field append service
+const appendService = require("../../services/searchFieldAppendService");
+
+// object ID for mongodb
+const ObjectId = require("mongodb").ObjectID;
+
 /**
  * GET all data set
  * @input
  * @output {array}
  */
-module.exports.getAll = async () => {
+module.exports.getAll = async (queryParams) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = await repository.findAll({});
+      let query = { is_deleted: false };
+      // search by vehicle
+      query = appendService.appendQueryParams(
+        queryParams,
+        "vehicle",
+        query,
+        true
+      );
+      // search by vehicle
+      query = appendService.appendQueryParams(
+        queryParams,
+        "mechanic",
+        query,
+        true
+      );
+      // search by vehicle
+      query = appendService.appendQueryParams(queryParams, "status", query);
+
+      const data = await repository.findAll(query);
       if (!data || data.length == 0) {
         resolve([]);
       } else {
