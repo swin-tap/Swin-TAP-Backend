@@ -128,4 +128,5 @@ module.exports.updateOneRecord = joi.object().keys({
       located_state.WA
     ),
   postal_code: joi.number(),
+  inspection_report: joi.any(),
 });

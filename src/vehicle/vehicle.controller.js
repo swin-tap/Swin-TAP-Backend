@@ -2,6 +2,9 @@
 const service = require('./vehicle.service');
 const inspection_report_service = require('../inspection-report/inspection-report.service');
 
+// object ID for mongodb
+const ObjectId = require('mongodb').ObjectID;
+
 // import response service to handle the output
 const {
   customError,
@@ -127,8 +130,26 @@ module.exports.postData = (req, res) => {
 // PUT single object
 module.exports.putData = async (req, res) => {
   try {
-    const output = await service.updateSingleObj(req.body);
-    return successWithData(output, res);
+    const { inspection_report, ...filteredBody } = req.body;
+
+    // Update filteredBody first
+    const output = await service.updateSingleObj(filteredBody);
+
+    // Clone the output object to change it from immutable
+    const finalOutput = { ...output._doc };
+
+    if (finalOutput.inspection_status === inspection_status.requested) {
+      // Update inspection_report
+      const report_output = await inspection_report_service.updateSingleObj(
+        inspection_report
+      );
+
+      // Add report_output to finalOutput as inspection_report
+      finalOutput.inspection_report = report_output;
+      successWithData(finalOutput, res);
+    } else {
+      successWithData(output, res);
+    }
   } catch (error) {
     return customError(error, res);
   }
