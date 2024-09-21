@@ -20,7 +20,8 @@ module.exports.getAll = async (
   sortPrice,
   sortDate,
   minPrice,
-  maxPrice
+  maxPrice,
+  sellerId
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -38,6 +39,7 @@ module.exports.getAll = async (
         sortDate,
         minPrice,
         maxPrice,
+        sellerId,
       });
       if (!data || data.length == 0) {
         resolve([]);
@@ -65,7 +67,8 @@ module.exports.getAllInspectionRequests = async (
   sortPrice,
   sortDate,
   minPrice,
-  maxPrice
+  maxPrice,
+  sellerId
 ) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -83,6 +86,7 @@ module.exports.getAllInspectionRequests = async (
         sortDate,
         minPrice,
         maxPrice,
+        sellerId,
       });
       if (!data || data.length == 0) {
         resolve([]);

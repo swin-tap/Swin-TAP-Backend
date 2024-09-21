@@ -12,6 +12,9 @@ const userService = require('../users/users.service');
 const mailSender = require('../../mailHub/miler');
 const { inspection_status } = require('../../config/vehicleConfig');
 
+// import search field append service
+const appendService = require('../../services/searchFieldAppendService');
+
 // object ID for mongodb
 const ObjectId = require('mongodb').ObjectID;
 
@@ -20,10 +23,28 @@ const ObjectId = require('mongodb').ObjectID;
  * @input
  * @output {array}
  */
-module.exports.getAll = async () => {
+module.exports.getAll = async (queryParams) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = await repository.findAll({});
+      let query = { is_deleted: false };
+      // search by vehicle
+      query = appendService.appendQueryParams(
+        queryParams,
+        'vehicle',
+        query,
+        true
+      );
+      // search by mechanic
+      query = appendService.appendQueryParams(
+        queryParams,
+        'mechanic',
+        query,
+        true
+      );
+      // search by vehicle
+      query = appendService.appendQueryParams(queryParams, 'status', query);
+
+      const data = await repository.findAll(query);
       if (!data || data.length == 0) {
         resolve([]);
       } else {
@@ -200,67 +221,6 @@ module.exports.updateSingleObj = async (obj) => {
     delete obj._id;
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
-
-      if (!data) {
-        reject('No data found from given id');
-      } else {
-        // check for inspection status update
-        if (obj.status && obj.status === status.assigned) {
-          if (data.mechanic) {
-            // extract inspection data
-            const inspec_data = await this.getById(id);
-            // extract inspection data
-            const { inspection_time } = inspec_data;
-            const { seller } = inspec_data;
-            const { mechanic } = inspec_data;
-            // send email to seller about inspection acceptance.
-            await mailSender.acceptInspection(
-              seller.email,
-              seller.name,
-              id,
-              inspection_time,
-              mechanic.name
-            );
-          }
-        }
-        // update vehicle status
-        if (obj.status && data.vehicle) {
-          const vehicle_update_object = {
-            _id: data.vehicle,
-            inspection_status:
-              obj.status === status.assigned
-                ? inspection_status.accepted
-                : obj.status === status.completed
-                ? inspection_status.completed
-                : undefined,
-          };
-
-          if (vehicle_update_object.inspection_status) {
-            await vehicleService.updateSingleObj(vehicle_update_object);
-          }
-        }
-
-        resolve(data);
-      }
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-/**
- * PUT object by vehicle ID
- * @input {objId}
- * @output {object}
- */
-module.exports.updateSingleObjByVehicleId = async (obj) => {
-  console.log(obj);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const data = await repository.updateSingleObject(
-        { vehicle: ObjectId(obj.id) },
-        obj
-      );
 
       if (!data) {
         reject('No data found from given id');

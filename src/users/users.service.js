@@ -49,7 +49,6 @@ module.exports.getAll = async (queryParams) => {
     let query = { is_deleted: false };
 
     // search by name
-    const appendService = require('../../services/searchFieldAppendService');
     query = appendService.appendQueryParams(queryParams, 'name', query);
     // search by nic
     query = appendService.appendQueryParams(queryParams, 'nic', query);

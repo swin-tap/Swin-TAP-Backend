@@ -34,6 +34,7 @@ module.exports.findAll = (query) => {
         sortDate,
         minPrice,
         maxPrice,
+        sellerId,
         ...filters
       } = query; // Extract pagination and other parameters
 
@@ -52,6 +53,9 @@ module.exports.findAll = (query) => {
       }
       if (inspection) {
         filters.inspection_status = inspection_status.completed;
+      }
+      if (sellerId) {
+        filters.seller_id = sellerId;
       }
 
       // Add price range to filters if minPrice, maxPrice are provided
