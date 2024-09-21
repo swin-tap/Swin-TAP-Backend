@@ -1,15 +1,15 @@
 // import service
-const service = require("./inspection-report.service");
+const service = require('./inspection-report.service');
 // import response service to handle the output
 const {
   customError,
   successWithData,
-} = require("../../services/responseService");
+} = require('../../services/responseService');
 
 // GET all data set
 module.exports.getAll = async (req, res) => {
   try {
-    const output = await service.getAll(req.query);
+    const output = await service.getAll();
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);

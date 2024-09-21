@@ -24,6 +24,7 @@ module.exports.getAll = async (req, res) => {
     const postal_code = parseInt(req.query.postalCode) || null; // For filtering by postal code
     const minPrice = parseInt(req.query.minPrice) || null; // For min price
     const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
+    const sellerId = req.query.sellerId || null; // For the seller ID
     const output = await service.getAll(
       page,
       limit,
@@ -35,7 +36,8 @@ module.exports.getAll = async (req, res) => {
       sortPrice,
       sortDate,
       minPrice,
-      maxPrice
+      maxPrice,
+      sellerId
     );
     return successWithData(output, res);
   } catch (error) {
@@ -56,6 +58,7 @@ module.exports.getAllInspectionRequests = async (req, res) => {
     const postal_code = parseInt(req.query.postalCode) || null; // For filtering by postal code
     const minPrice = parseInt(req.query.minPrice) || null; // For min price
     const maxPrice = parseInt(req.query.maxPrice) || null; // For max price
+    const sellerId = req.query.sellerId || null; // For the seller ID
     const output = await service.getAllInspectionRequests(
       page,
       limit,
@@ -66,7 +69,8 @@ module.exports.getAllInspectionRequests = async (req, res) => {
       sortPrice,
       sortDate,
       minPrice,
-      maxPrice
+      maxPrice,
+      sellerId
     );
     return successWithData(output, res);
   } catch (error) {
@@ -133,8 +137,6 @@ module.exports.putData = async (req, res) => {
 // Delete single object
 module.exports.deleteData = async (req, res) => {
   try {
-    console.log(req.params.id);
-    console.log('req.params.id');
     const output = await service.DeleteSingleObject(req.params.id);
     return successWithData(output, res);
   } catch (error) {
