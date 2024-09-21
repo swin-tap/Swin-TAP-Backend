@@ -1,21 +1,21 @@
 // import repository
-const vehicleService = require("../vehicle/vehicle.service");
-const puppeteer = require("puppeteer");
-const repository = require("./inspection-report.repository");
+const puppeteer = require('puppeteer');
+const vehicleService = require('../vehicle/vehicle.service');
+const repository = require('./inspection-report.repository');
 const {
   inspection_report_template,
   status,
-} = require("../../config/inspectionReportConfig");
-const userService = require("../users/users.service");
+} = require('../../config/inspectionReportConfig');
+const userService = require('../users/users.service');
 // import mail service
-const mailSender = require("../../mailHub/miler");
-const { inspection_status } = require("../../config/vehicleConfig");
+const mailSender = require('../../mailHub/miler');
+const { inspection_status } = require('../../config/vehicleConfig');
 
 // import search field append service
-const appendService = require("../../services/searchFieldAppendService");
+const appendService = require('../../services/searchFieldAppendService');
 
 // object ID for mongodb
-const ObjectId = require("mongodb").ObjectID;
+const ObjectId = require('mongodb').ObjectID;
 
 /**
  * GET all data set
@@ -29,19 +29,19 @@ module.exports.getAll = async (queryParams) => {
       // search by vehicle
       query = appendService.appendQueryParams(
         queryParams,
-        "vehicle",
+        'vehicle',
         query,
         true
       );
-      // search by vehicle
+      // search by mechanic
       query = appendService.appendQueryParams(
         queryParams,
-        "mechanic",
+        'mechanic',
         query,
         true
       );
       // search by vehicle
-      query = appendService.appendQueryParams(queryParams, "status", query);
+      query = appendService.appendQueryParams(queryParams, 'status', query);
 
       const data = await repository.findAll(query);
       if (!data || data.length == 0) {
@@ -66,7 +66,7 @@ module.exports.getById = async (id) => {
       const data = await repository.findById({ _id: id });
 
       if (!data || data.length == 0) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
@@ -103,7 +103,7 @@ module.exports.cancel = async (obj) => {
     try {
       const data = await this.updateSingleObj({
         ...obj,
-        status: "unassigned",
+        status: 'unassigned',
         mechanic: null,
       });
 
@@ -164,7 +164,7 @@ module.exports.generateReport = async (obj) => {
         }
 
         // inspection checklist
-        let inspect_body = "";
+        let inspect_body = '';
 
         inspec_data.checklist.forEach((value, key) => {
           inspect_body = `${inspect_body}
@@ -190,7 +190,7 @@ module.exports.generateReport = async (obj) => {
         // Generate PDF
         await page.pdf({
           path: `uploads/${obj._id}.pdf`,
-          format: "A4",
+          format: 'A4',
         });
         await browser.close();
 
@@ -201,7 +201,7 @@ module.exports.generateReport = async (obj) => {
           report_path: `${process.env.SERVER_PATH}uploads/${obj._id}.pdf`,
         });
       } else {
-        reject("Inspection not assigned with mechanic.");
+        reject('Inspection not assigned with mechanic.');
       }
     } catch (error) {
       reject(error);
@@ -222,7 +222,7 @@ module.exports.updateSingleObj = async (obj) => {
       const data = await repository.updateSingleObject({ _id: id }, obj);
 
       if (!data) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         // check for inspection status update
         if (obj.status && obj.status === status.assigned) {
@@ -278,7 +278,7 @@ module.exports.DeleteSingleObject = async (id) => {
     try {
       const data = await repository.removeObject({ _id: id });
       if (!data) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
