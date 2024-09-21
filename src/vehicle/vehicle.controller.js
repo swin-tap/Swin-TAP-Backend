@@ -137,15 +137,13 @@ module.exports.putData = async (req, res) => {
 
     // Clone the output object to change it from immutable
     const finalOutput = { ...output._doc };
-    console.log(finalOutput);
+
     if (finalOutput.inspection_status === inspection_status.requested) {
-      console.log(finalOutput);
       // Update inspection_report
-      const report_output =
-        await inspection_report_service.updateSingleObjByVehicleId(
-          inspection_report
-        );
-      console.log(report_output);
+      const report_output = await inspection_report_service.updateSingleObj(
+        inspection_report
+      );
+
       // Add report_output to finalOutput as inspection_report
       finalOutput.inspection_report = report_output;
       successWithData(finalOutput, res);

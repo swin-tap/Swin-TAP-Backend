@@ -1,6 +1,5 @@
 // import repository
 const puppeteer = require('puppeteer');
-const { console } = require('inspector/promises');
 const vehicleService = require('../vehicle/vehicle.service');
 const repository = require('./inspection-report.repository');
 const {
