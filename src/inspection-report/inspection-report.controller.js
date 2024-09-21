@@ -9,7 +9,7 @@ const {
 // GET all data set
 module.exports.getAll = async (req, res) => {
   try {
-    const output = await service.getAll();
+    const output = await service.getAll(req.query);
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);
