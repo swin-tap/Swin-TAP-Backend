@@ -17,6 +17,9 @@ module.exports.permission_list = {
     path: "/",
     granted: [admin, seller],
   },
+  payment_update_webhook: {
+    path: "/webhook",
+  },
   payment_remove: {
     path: "/:id",
     granted: [admin, seller],
