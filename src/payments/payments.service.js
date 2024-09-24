@@ -122,8 +122,6 @@ module.exports.updateSingleObj = async (obj) => {
  */
 module.exports.webhookUpdate = async (header, obj) => {
   return new Promise(async (resolve, reject) => {
-    const id = obj._id;
-    delete obj._id;
     const sig = header["stripe-signature"];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET;
     let event;
@@ -156,6 +154,9 @@ module.exports.webhookUpdate = async (header, obj) => {
         reject("Invalid event type");
       }
     } catch (error) {
+      console.log("==============error=================");
+      console.log(error);
+      console.log("====================================");
       reject(error);
     }
   });
