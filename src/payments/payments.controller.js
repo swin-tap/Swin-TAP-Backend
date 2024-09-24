@@ -46,6 +46,16 @@ module.exports.putData = async (req, res) => {
   }
 };
 
+// Webhook update
+module.exports.webhookData = async (req, res) => {
+  try {
+    const output = await service.webhookUpdate(req.headers, req.body);
+    return successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
 // Delete single object
 module.exports.deleteData = async (req, res) => {
   try {

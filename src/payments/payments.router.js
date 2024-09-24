@@ -8,6 +8,7 @@ const {
   postData,
   putData,
   deleteData,
+  webhookData,
 } = require("./payments.controller");
 // import Validator class
 const { validateHeader, validateBody } = require("../../validators/validator");
@@ -20,6 +21,7 @@ const {
   payment_get_by_id,
   payment_save,
   payment_update,
+  payment_update_webhook,
   payment_remove,
 } = require("./payments.permission").permission_list;
 
@@ -41,6 +43,7 @@ router
     validateBody(updateOneRecord),
     putData
   );
+router.route(payment_update_webhook.path).put(webhookData);
 router
   .route(payment_remove.path)
   .delete(validateHeader(payment_remove.granted), deleteData);

@@ -1,7 +1,9 @@
 // import mongoose
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // declare model name
-const model_name = 'payment';
+const model_name = "payment";
+// import payment status
+const { paid, pending } = require("../../config/paymentConfig").status;
 
 // create schema
 const schema = new mongoose.Schema(
@@ -17,17 +19,22 @@ const schema = new mongoose.Schema(
     },
     inspection_report: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'inspection_report',
+      ref: "inspection_report",
     },
     payment_email: {
       type: String,
+    },
+    status: {
+      type: String,
+      trim: true,
+      default: pending,
     },
     is_deleted: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
 // create modal
