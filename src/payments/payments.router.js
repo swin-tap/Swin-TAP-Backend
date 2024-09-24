@@ -43,7 +43,7 @@ router
     validateBody(updateOneRecord),
     putData
   );
-router.route(payment_update_webhook.path).put(webhookData);
+router.route(payment_update_webhook.path).post(webhookData);
 router
   .route(payment_remove.path)
   .delete(validateHeader(payment_remove.granted), deleteData);
