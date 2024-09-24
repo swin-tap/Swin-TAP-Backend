@@ -18,7 +18,8 @@ const inspection_report_template = (
   date,
   mechanic,
   address,
-  result
+  result,
+  qr
 ) => {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -102,6 +103,16 @@ const inspection_report_template = (
             font-size: 12px;
             color: #888;
         }
+
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+        }
     </style>
 </head>
 <body>
@@ -127,12 +138,18 @@ const inspection_report_template = (
             ${result}
         </div>
 
+        <!-- QR Code Section -->
+        <div class="qr-code">
+            <img src= ${qr} alt="QR Code">
+        </div>
+
         <div class="footer">
             <p>© 2024 AUTOASSURE. All rights reserved.</p>
         </div>
     </div>
 </body>
-</html>`;
+</html>
+`;
 };
 
 module.exports = { status, additional_request, inspection_report_template };
