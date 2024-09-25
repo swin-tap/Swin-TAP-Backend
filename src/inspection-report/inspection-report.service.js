@@ -233,13 +233,12 @@ module.exports.updateSingleObj = async (obj) => {
       } else {
         // check for inspection status update
         if (obj.status && obj.status === status.assigned) {
-          if (data.mechanic) {
+          if (data.mechanic && data.seller) {
             // extract inspection data
             const inspec_data = await this.getById(id);
             // extract inspection data
-            const { inspection_time } = inspec_data;
-            const { seller } = inspec_data;
-            const { mechanic } = inspec_data;
+            const { inspection_time, seller, mechanic } = inspec_data;
+
             // send email to seller about inspection acceptance.
             await mailSender.acceptInspection(
               seller.email,
