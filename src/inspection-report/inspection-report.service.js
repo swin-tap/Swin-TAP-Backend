@@ -112,10 +112,14 @@ module.exports.cancel = async (obj) => {
       // extract inspection data
       const inspec_data = await this.getById(data._id);
       // extract inspection data
+
       const { _id, inspection_time } = inspec_data;
-      const { name, email } = inspec_data.seller;
-      // send email to seller about inspection cancelation.
-      await mailSender.cancelInspection(email, name, _id, inspection_time);
+      if (inspec_data.seller) {
+        const { name, email } = inspec_data.seller;
+
+        // send email to seller about inspection cancelation.
+        await mailSender.cancelInspection(email, name, _id, inspection_time);
+      }
 
       resolve(data);
     } catch (error) {
