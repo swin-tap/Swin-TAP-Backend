@@ -110,7 +110,8 @@ module.exports.postData = (req, res) => {
           const report_output = await inspection_report_service.save(
             inspection_report
           );
-
+          const obj = { _id: output._id, inspection_report: report_output._id };
+          await service.updateSingleObj(obj);
           // Add report_output to finalOutput as inspection_report
           finalOutput.inspection_report = report_output;
 
@@ -139,10 +140,22 @@ module.exports.putData = async (req, res) => {
     const finalOutput = { ...output._doc };
 
     if (finalOutput.inspection_status === inspection_status.requested) {
-      // Update inspection_report
-      const report_output = await inspection_report_service.updateSingleObj(
-        inspection_report
-      );
+      let report_output = null;
+      // Update or create inspection_report
+      if (!inspection_report._id) {
+        inspection_report.vehicle = output.id;
+        // Save inspection_report
+        report_output = await inspection_report_service.save(inspection_report);
+        const obj = {
+          _id: finalOutput._id,
+          inspection_report: report_output._id,
+        };
+        await service.updateSingleObj(obj);
+      } else {
+        report_output = await inspection_report_service.updateSingleObj(
+          inspection_report
+        );
+      }
 
       // Add report_output to finalOutput as inspection_report
       finalOutput.inspection_report = report_output;
