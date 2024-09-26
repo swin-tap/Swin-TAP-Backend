@@ -27,7 +27,7 @@ module.exports.addOneRecord = joi.object().keys({
     .array()
     .items(joi.string().valid(...[road_worthy, periodical_service])),
   checklist: joi.object().pattern(joi.string(), joi.string()),
-  status: joi.string().valid(not_assign, assigned, completed),
+  status: joi.string().valid(not_requested, requested, assigned, completed),
 });
 
 // cancel object schema
