@@ -1,13 +1,13 @@
 const status = {
-  not_assign: "unassigned",
+  not_requested: "not_requested",
+  requested: "requested",
   assigned: "assigned",
   completed: "completed",
 };
 
 const additional_request = {
   road_worthy: "road worthy",
-  inspection: "inspection",
-  simple_check: "simple check",
+  periodical_service: "periodical_service",
 };
 
 const inspection_report_template = (
