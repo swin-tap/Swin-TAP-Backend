@@ -1,5 +1,5 @@
 // import validator Schemas
-const express = require('express');
+const express = require("express");
 const {
   create,
   postScm,
@@ -8,7 +8,7 @@ const {
   contactUsSchema,
   resetPasswordScm,
   forgetPasswordScm,
-} = require('./users.schema');
+} = require("./users.schema");
 // import controllers
 const {
   getAll,
@@ -20,11 +20,10 @@ const {
   resetPassword,
   forgetPassword,
   contactUSController,
-  confUser,
   createUser,
-} = require('./users.controller');
+} = require("./users.controller");
 // import Validator class
-const { validateBody, validateHeader } = require('../../validators/validator');
+const { validateBody, validateHeader } = require("../../validators/validator");
 // Import Express
 // user router
 const router = express.Router();
@@ -41,7 +40,7 @@ const {
   users_confirmation,
   users_reset_password,
   users_forget_password,
-} = require('./users.permission').permission_list;
+} = require("./users.permission").permission_list;
 
 // get all
 router
@@ -81,7 +80,5 @@ router
 router
   .route(users_forget_password.path)
   .post(validateBody(forgetPasswordScm), forgetPassword);
-// confirm password
-router.route(users_confirmation.path).get(confUser);
 
 module.exports = router;

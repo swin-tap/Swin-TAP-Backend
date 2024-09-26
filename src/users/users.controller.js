@@ -1,5 +1,5 @@
 // import service
-const service = require('./users.service');
+const service = require("./users.service");
 // import response service to handle the output
 const {
   successWithPaginationData,
@@ -7,7 +7,7 @@ const {
   successWithData,
   successConfirmation,
   errorConfirmation,
-} = require('../../services/responseService');
+} = require("../../services/responseService");
 
 // GET all data set
 module.exports.getAll = async (req, res) => {
@@ -86,16 +86,6 @@ module.exports.deleteObject = async (req, res) => {
     return successWithData(output, res);
   } catch (error) {
     return customError(error, res);
-  }
-};
-
-// Confirm user
-module.exports.confUser = async (req, res) => {
-  try {
-    const output = await service.confirmUser(req.params.id);
-    return successConfirmation(res);
-  } catch (error) {
-    return errorConfirmation(res);
   }
 };
 
