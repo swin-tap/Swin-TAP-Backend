@@ -4,14 +4,9 @@ const userRoles = {
   mechanic: "mechanic",
 };
 
-const userStatus = {
-  confirmed: "confirmed",
-  notConfirmed: "not-confirmed",
+const mechanicVerification = {
+  not_verified: "not_verified",
+  verified: "verified",
 };
 
-const otpStatus = {
-  confirmed: "confirmed",
-  notConfirmed: "not-confirmed",
-};
-
-module.exports = { userRoles, userStatus, otpStatus };
+module.exports = { userRoles, mechanicVerification };
