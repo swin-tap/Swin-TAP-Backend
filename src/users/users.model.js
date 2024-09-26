@@ -1,11 +1,13 @@
 // import mongoose
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // declare model name
-const model_name = 'user';
-// import permission list
-const { seller } = require('../../config/permissionConfig').userRoles;
+const model_name = "user";
+
 // import user status
-const { userStatus } = require('../../config/permissionConfig');
+const {
+  mechanicVerification,
+  userRoles,
+} = require("../../config/permissionConfig");
 
 // create schema
 const schema = new mongoose.Schema(
@@ -36,48 +38,36 @@ const schema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      default: seller,
+      default: userRoles.seller,
       trim: true,
-    },
-    confirmation_code: {
-      type: String,
-      trim: true,
-    },
-    status: {
-      type: String,
-      default: userStatus.notConfirmed,
-      trim: true,
-    },
-    is_active: {
-      type: Boolean,
-      default: true,
-    },
-    is_first_time: {
-      type: Boolean,
-      default: true,
     },
     identity_verification_documents: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'file',
+        ref: "file",
       },
     ],
     skill_verification_documents: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'file',
+        ref: "file",
       },
     ],
     image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'file',
+      ref: "file",
+    },
+    mechanic_verification: {
+      type: String,
+      default: mechanicVerification.not_verified,
+      trim: true,
     },
     is_deleted: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
 // create modal

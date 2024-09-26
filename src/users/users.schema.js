@@ -1,8 +1,12 @@
 // import validator class
-const joi = require('joi');
+const joi = require("joi");
 // import permission list
-const { seller, mechanic, admin } =
-  require('../../config/permissionConfig').userRoles;
+const {
+  userRoles,
+  mechanicVerification,
+} = require("../../config/permissionConfig");
+const { seller, mechanic, admin } = userRoles;
+const { not_verified, verified } = mechanicVerification;
 
 // add object schema
 module.exports.postScm = joi.object().keys({
@@ -49,6 +53,7 @@ module.exports.putScm = joi.object().keys({
   identity_verification_documents: joi.array().items(joi.string()),
   skill_verification_documents: joi.array().items(joi.string()),
   image: joi.string(),
+  mechanic_verification: joi.string().valid(not_verified, verified),
 });
 
 // login

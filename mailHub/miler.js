@@ -1,9 +1,9 @@
-const nodemailer = require('nodemailer');
-const mailConfig = require('../config/mailConfig');
-const mailTemplates = require('./emailTemplate');
+const nodemailer = require("nodemailer");
+const mailConfig = require("../config/mailConfig");
+const mailTemplates = require("./emailTemplate");
 
 const mailSender = {};
-const config = require('../config/config');
+const config = require("../config/config");
 
 const transporter = nodemailer.createTransport({
   host: mailConfig.host,
@@ -17,26 +17,26 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-mailSender.welcomeMail = function (toAddress, firstName, code) {
+mailSender.welcomeMail = function (toAddress, firstName) {
   const mailSubject = `Welcome to ${config.app_name}`;
   return setMailConfiguration(
     toAddress,
     mailSubject,
-    mailTemplates.welcomeEmail(firstName, code)
+    mailTemplates.welcomeEmail(firstName)
   );
 };
 
-mailSender.userCreation = function (toAddress, name, password, code) {
+mailSender.userCreation = function (toAddress, name, password) {
   const mailSubject = `Welcome To ${config.app_name}`;
   return setMailConfiguration(
     toAddress,
     mailSubject,
-    mailTemplates.userCreation(name, toAddress, password, code)
+    mailTemplates.userCreation(name, toAddress, password)
   );
 };
 
 mailSender.resetPassword = function (toAddress, first_name) {
-  const mailSubject = 'Password Reset';
+  const mailSubject = "Password Reset";
   return setMailConfiguration(
     toAddress,
     mailSubject,
@@ -45,7 +45,7 @@ mailSender.resetPassword = function (toAddress, first_name) {
 };
 
 mailSender.forgetPassword = function (toAddress, first_name, password) {
-  const mailSubject = 'Forget Password';
+  const mailSubject = "Forget Password";
   return setMailConfiguration(
     toAddress,
     mailSubject,
@@ -61,7 +61,7 @@ mailSender.contactUs = function (
   subject,
   message
 ) {
-  const mailSubject = 'Contact Us';
+  const mailSubject = "Contact Us";
   return setMailConfiguration(
     toAddress,
     mailSubject,
@@ -77,7 +77,7 @@ mailSender.inspectionAdditionalInformation = function (
   note,
   mechanicName
 ) {
-  const mailSubject = 'Additional Car Repaire Required';
+  const mailSubject = "Additional Car Repaire Required";
   return setMailConfiguration(
     toAddress,
     mailSubject,
@@ -98,7 +98,7 @@ mailSender.acceptInspection = function (
   bookingDate,
   mechanicName
 ) {
-  const mailSubject = 'Your Inspection is Accepted by Mechanic';
+  const mailSubject = "Your Inspection is Accepted by Mechanic";
   return setMailConfiguration(
     toAddress,
     mailSubject,
@@ -117,7 +117,7 @@ mailSender.cancelInspection = function (
   bookingNumber,
   bookingDate
 ) {
-  const mailSubject = 'Your Inspection is Cancelled';
+  const mailSubject = "Your Inspection is Cancelled";
   return setMailConfiguration(
     toAddress,
     mailSubject,
@@ -131,7 +131,7 @@ mailSender.paymentForInspection = function (
   currencyType,
   paymentAmount
 ) {
-  const mailSubject = 'Succesful Payment for Inspection Booking';
+  const mailSubject = "Succesful Payment for Inspection Booking";
   return setMailConfiguration(
     toAddress,
     mailSubject,
