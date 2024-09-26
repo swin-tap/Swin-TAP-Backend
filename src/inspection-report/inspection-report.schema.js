@@ -1,11 +1,17 @@
 // import validator class
-const joi = require('joi');
+const joi = require("joi");
 // status
-const { not_assign, assigned, completed } =
-  require('../../config/inspectionReportConfig').status;
+const {
+  not_requested,
+  requested,
+  assigned,
+  completed,
+} = require("../../config/inspectionReportConfig").status;
 
-const { road_worthy, inspection, simple_check } =
-  require('../../config/inspectionReportConfig').additional_request;
+const {
+  road_worthy,
+  periodical_service,
+} = require("../../config/inspectionReportConfig").additional_request;
 
 // add object schema
 module.exports.addOneRecord = joi.object().keys({
@@ -19,9 +25,9 @@ module.exports.addOneRecord = joi.object().keys({
   postal_code: joi.string(),
   additional_requests: joi
     .array()
-    .items(joi.string().valid(...[road_worthy, inspection, simple_check])),
+    .items(joi.string().valid(...[road_worthy, periodical_service])),
   checklist: joi.object().pattern(joi.string(), joi.string()),
-  status: joi.string().valid(not_assign, assigned, completed),
+  status: joi.string().valid(not_requested, requested, assigned, completed),
 });
 
 // cancel object schema
@@ -47,7 +53,7 @@ module.exports.updateOneRecord = joi.object().keys({
   postal_code: joi.string(),
   additional_requests: joi
     .array()
-    .items(joi.string().valid(...[road_worthy, inspection, simple_check])),
+    .items(joi.string().valid(...[road_worthy, periodical_service])),
   checklist: joi.object().pattern(joi.string(), joi.string()),
-  status: joi.string().valid(not_assign, assigned, completed),
+  status: joi.string().valid(not_requested, requested, assigned, completed),
 });

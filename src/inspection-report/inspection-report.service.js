@@ -105,7 +105,7 @@ module.exports.cancel = async (obj) => {
     try {
       const data = await this.updateSingleObj({
         ...obj,
-        status: "unassigned",
+        status: status.requested,
         mechanic: null,
       });
 
