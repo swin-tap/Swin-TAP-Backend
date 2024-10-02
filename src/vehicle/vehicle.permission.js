@@ -1,28 +1,35 @@
 // import permission list
-const { admin, seller, mechanic } =
-  require('../../config/permissionConfig').userRoles;
+const {
+  admin,
+  seller,
+  mechanic,
+} = require("../../config/permissionConfig").userRoles;
 
 module.exports.permission_list = {
   vehicle_get_all: {
-    path: '/',
+    path: "/",
+  },
+  vehicle_count: {
+    path: "/count",
+    granted: [admin],
   },
   vehicle_get_all_inspection_requests: {
-    path: '/inspections',
+    path: "/inspections",
     granted: [admin, mechanic],
   },
   vehicle_get_by_id: {
-    path: '/:id',
+    path: "/:id",
   },
   vehicle_save: {
-    path: '/',
+    path: "/",
     granted: [admin, seller],
   },
   vehicle_update: {
-    path: '/',
+    path: "/",
     granted: [admin, seller, mechanic],
   },
   vehicle_remove: {
-    path: '/:id',
+    path: "/:id",
     granted: [admin, seller],
   },
 };

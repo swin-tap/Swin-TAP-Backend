@@ -32,10 +32,35 @@ module.exports.count = async (query) => {
     try {
       const data = await repository.count(query);
       if (!data || data.length === 0) {
-        resolve([]);
+        resolve(0);
       } else {
         resolve(data);
       }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * GET all data set
+ * @input
+ * @output {array}
+ */
+module.exports.countUsers = async (queryParams) => {
+  return new Promise(async (resolve, reject) => {
+    let query = { is_deleted: false };
+
+    // search by role
+    query = appendService.appendQueryParams(queryParams, "role", query, true);
+
+    try {
+      const count = await this.count(query);
+      const obj = {
+        count: count,
+        role: queryParams.role ? queryParams.role : "all",
+      };
+      resolve(obj);
     } catch (error) {
       reject(error);
     }

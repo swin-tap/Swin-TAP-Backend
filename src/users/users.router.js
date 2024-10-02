@@ -21,6 +21,7 @@ const {
   forgetPassword,
   contactUSController,
   createUser,
+  countUsers,
 } = require("./users.controller");
 // import Validator class
 const { validateBody, validateHeader } = require("../../validators/validator");
@@ -40,12 +41,17 @@ const {
   users_confirmation,
   users_reset_password,
   users_forget_password,
+  count_users,
 } = require("./users.permission").permission_list;
 
 // get all
 router
   .route(users_get_all.path)
   .get(validateHeader(users_get_all.granted), getAll);
+// count users
+router
+  .route(count_users.path)
+  .get(validateHeader(count_users.granted), countUsers);
 // get single object by id
 router.route(users_get_by_id.path).get(getOne);
 // post object

@@ -8,11 +8,6 @@ const {
   completed,
 } = require("../../config/inspectionReportConfig").status;
 
-const {
-  road_worthy,
-  periodical_service,
-} = require("../../config/inspectionReportConfig").additional_request;
-
 // add object schema
 module.exports.addOneRecord = joi.object().keys({
   mechanic: joi.string(),
@@ -23,9 +18,7 @@ module.exports.addOneRecord = joi.object().keys({
   images: joi.array().items(joi.string()),
   vehicle_rego: joi.string(),
   postal_code: joi.string(),
-  additional_requests: joi
-    .array()
-    .items(joi.string().valid(...[road_worthy, periodical_service])),
+  additional_requests: joi.array().items(joi.string()),
   checklist: joi.object().pattern(joi.string(), joi.string()),
   status: joi.string().valid(not_requested, requested, assigned, completed),
 });
@@ -51,9 +44,7 @@ module.exports.updateOneRecord = joi.object().keys({
   images: joi.array().items(joi.string()),
   vehicle_rego: joi.string(),
   postal_code: joi.string(),
-  additional_requests: joi
-    .array()
-    .items(joi.string().valid(...[road_worthy, periodical_service])),
+  additional_requests: joi.array().items(joi.string()),
   checklist: joi.object().pattern(joi.string(), joi.string()),
   status: joi.string().valid(not_requested, requested, assigned, completed),
 });
