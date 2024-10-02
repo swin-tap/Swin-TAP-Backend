@@ -10,6 +10,10 @@ module.exports.permission_list = {
     path: "/",
     granted: [admin],
   },
+  count_users: {
+    path: "/count",
+    granted: [admin],
+  },
   users_get_by_id: {
     path: "/:id",
   },
