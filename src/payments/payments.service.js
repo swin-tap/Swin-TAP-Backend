@@ -61,9 +61,20 @@ module.exports.save = async (obj) => {
         name: "Vehicle Inspection Fee with AutoAssure.me",
       });
 
+      let totalPrice = parseFloat(obj.amount);
+
+      if (
+        obj["additional_requests"] &&
+        obj["additional_requests"].length !== 0
+      ) {
+        obj["additional_requests"].forEach((price_obj) => {
+          totalPrice += parseFloat(price_obj.price);
+        });
+      }
+
       // Create a price for the product
       const price = await stripe.prices.create({
-        unit_amount: obj.amount * 100,
+        unit_amount: totalPrice * 100,
         currency: obj.currency,
         product: product.id, // above created
       });
