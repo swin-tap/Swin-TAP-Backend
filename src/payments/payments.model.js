@@ -40,6 +40,7 @@ const schema = new mongoose.Schema(
       type: String,
       trim: true,
       default: pending,
+      enum: [paid, pending],
     },
     is_deleted: {
       type: Boolean,

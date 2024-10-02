@@ -1,17 +1,27 @@
 // import service
-const service = require('./vehicle.service');
-const inspection_report_service = require('../inspection-report/inspection-report.service');
+const service = require("./vehicle.service");
+const inspection_report_service = require("../inspection-report/inspection-report.service");
 
 // object ID for mongodb
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require("mongodb").ObjectID;
 
 // import response service to handle the output
 const {
   customError,
   successWithData,
-} = require('../../services/responseService');
+} = require("../../services/responseService");
 
-const { inspection_status } = require('../../config/vehicleConfig');
+const { inspection_status } = require("../../config/vehicleConfig");
+
+// COUNT all data set
+module.exports.adminCount = async (req, res) => {
+  try {
+    const output = await service.adminCount(req.query);
+    return successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
 
 // GET all data set - vehicles
 module.exports.getAll = async (req, res) => {

@@ -40,6 +40,7 @@ const schema = new mongoose.Schema(
       required: true,
       default: userRoles.seller,
       trim: true,
+      enum: [userRoles.admin, userRoles.mechanic, userRoles.seller],
     },
     identity_verification_documents: [
       {
@@ -61,6 +62,7 @@ const schema = new mongoose.Schema(
       type: String,
       default: mechanicVerification.not_verified,
       trim: true,
+      enum: [mechanicVerification.not_verified, mechanicVerification.verified],
     },
     is_deleted: {
       type: Boolean,

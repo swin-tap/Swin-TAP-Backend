@@ -3,7 +3,12 @@ const mongoose = require("mongoose");
 // declare model name
 const model_name = "inspection_report";
 // status
-const { requested } = require("../../config/inspectionReportConfig").status;
+const {
+  not_requested,
+  requested,
+  assigned,
+  completed,
+} = require("../../config/inspectionReportConfig").status;
 
 // create schema
 const schema = new mongoose.Schema(
@@ -47,6 +52,7 @@ const schema = new mongoose.Schema(
       type: String,
       trim: true,
       default: requested,
+      enum: [not_requested, requested, assigned, completed],
     },
     additional_requests: {
       type: [String],

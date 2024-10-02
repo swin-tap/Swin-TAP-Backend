@@ -32,7 +32,7 @@ module.exports.count = async (query) => {
     try {
       const data = await repository.count(query);
       if (!data || data.length === 0) {
-        resolve([]);
+        resolve(0);
       } else {
         resolve(data);
       }

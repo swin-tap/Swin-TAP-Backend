@@ -1,6 +1,6 @@
 // import validator Schemas
-const express = require('express');
-const { addOneRecord, updateOneRecord } = require('./vehicle.schema');
+const express = require("express");
+const { addOneRecord, updateOneRecord } = require("./vehicle.schema");
 // import controllers
 const {
   getAll,
@@ -9,9 +9,10 @@ const {
   putData,
   deleteData,
   getAllInspectionRequests,
-} = require('./vehicle.controller');
+  adminCount,
+} = require("./vehicle.controller");
 // import Validator class
-const { validateHeader, validateBody } = require('../../validators/validator');
+const { validateHeader, validateBody } = require("../../validators/validator");
 // Import Express
 // user router
 const router = express.Router();
@@ -23,9 +24,13 @@ const {
   vehicle_update,
   vehicle_remove,
   vehicle_get_all_inspection_requests,
-} = require('./vehicle.permission').permission_list;
+  vehicle_count,
+} = require("./vehicle.permission").permission_list;
 
 router.route(vehicle_get_all.path).get(getAll);
+router
+  .route(vehicle_count.path)
+  .get(validateHeader(vehicle_count.granted), adminCount);
 router
   .route(vehicle_get_all_inspection_requests.path)
   .get(
