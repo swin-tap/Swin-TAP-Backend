@@ -1,8 +1,32 @@
 // import repository
-const repository = require('./vehicle.repository');
+const repository = require("./vehicle.repository");
 
 // import from vehicle config
-const { inspection_status } = require('../../config/vehicleConfig');
+const { inspection_status } = require("../../config/vehicleConfig");
+
+/**
+ * COUNT all data set
+ * @input
+ * @output {array}
+ */
+module.exports.adminCount = async (params) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let query = { is_deleted: false };
+      if (params.filter && params.filter === "inspected") {
+        query["inspection_status"] = inspection_status.completed;
+      }
+      const data = await repository.count(query);
+      if (!data || data.length === 0) {
+        resolve({ count: 0 });
+      } else {
+        resolve({ count: data, filter: params.filter ? params.filter : "all" });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 /**
  * GET all data set
@@ -110,7 +134,7 @@ module.exports.getById = async (id) => {
       const data = await repository.findById({ _id: id });
 
       if (!data || data.length == 0) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
@@ -148,7 +172,7 @@ module.exports.updateSingleObj = async (obj) => {
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
       if (!data) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }
@@ -168,7 +192,7 @@ module.exports.DeleteSingleObject = async (id) => {
     try {
       const data = await repository.removeObject({ _id: id });
       if (!data) {
-        reject('No data found from given id');
+        reject("No data found from given id");
       } else {
         resolve(data);
       }

@@ -19,6 +19,16 @@ module.exports.getAll = async (req, res) => {
   }
 };
 
+// GET all data set
+module.exports.countUsers = async (req, res) => {
+  try {
+    const output = await service.countUsers(req.query);
+    return successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
 // GET single object
 module.exports.getOne = async (req, res) => {
   try {

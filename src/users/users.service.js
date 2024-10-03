@@ -15,7 +15,10 @@ const ObjectId = require("mongodb").ObjectID;
 const { query } = require("express");
 const appendService = require("../../services/searchFieldAppendService");
 // import user status
-const { userStatus } = require("../../config/permissionConfig");
+const {
+  userRoles,
+  mechanicVerification,
+} = require("../../config/permissionConfig");
 // collection name for the errors
 const collectionName = "user";
 
@@ -29,10 +32,35 @@ module.exports.count = async (query) => {
     try {
       const data = await repository.count(query);
       if (!data || data.length === 0) {
-        resolve([]);
+        resolve(0);
       } else {
         resolve(data);
       }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * GET all data set
+ * @input
+ * @output {array}
+ */
+module.exports.countUsers = async (queryParams) => {
+  return new Promise(async (resolve, reject) => {
+    let query = { is_deleted: false };
+
+    // search by role
+    query = appendService.appendQueryParams(queryParams, "role", query, true);
+
+    try {
+      const count = await this.count(query);
+      const obj = {
+        count: count,
+        role: queryParams.role ? queryParams.role : "all",
+      };
+      resolve(obj);
     } catch (error) {
       reject(error);
     }
@@ -275,7 +303,16 @@ module.exports.loginWithEmail = async (obj) => {
           age,
           name,
           password,
+          mechanic_verification,
         } = perviousUserData[0];
+
+        // check for un verified users.
+        if (
+          role === userRoles.mechanic &&
+          mechanic_verification !== mechanicVerification.verified
+        ) {
+          reject("Mechanic is not verified yet.");
+        }
 
         // compare password
         if (bcrypt.compareSync(obj.password, password)) {
@@ -345,7 +382,7 @@ module.exports.forgetPassword = async ({ email }) => {
       // if there is no previous user found
       if (!perviousUserData || perviousUserData.length == 0) {
         reject("Invalid email address");
-      } else if (perviousUserData[0].status === userStatus.confirmed) {
+      } else {
         // hash the password
         const newPassword = shortid.generate();
         const hashedPassword = createPasswordHash(newPassword);
@@ -361,8 +398,6 @@ module.exports.forgetPassword = async ({ email }) => {
           newPassword
         );
         resolve(updatedData);
-      } else {
-        reject("Make sure to confirm your email before this action.");
       }
     } catch (error) {
       reject(error);

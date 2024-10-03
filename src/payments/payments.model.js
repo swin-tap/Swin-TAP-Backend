@@ -24,10 +24,23 @@ const schema = new mongoose.Schema(
     payment_email: {
       type: String,
     },
+    additional_requests: [
+      {
+        name: {
+          type: String,
+          required: false,
+        },
+        price: {
+          type: String,
+          required: false,
+        },
+      },
+    ],
     status: {
       type: String,
       trim: true,
       default: pending,
+      enum: [paid, pending],
     },
     is_deleted: {
       type: Boolean,

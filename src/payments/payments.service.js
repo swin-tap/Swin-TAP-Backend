@@ -6,17 +6,38 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 // import mail service
 const mailSender = require("../../mailHub/miler");
 // import payment status
-const { paid } = require("../../config/paymentConfig").status;
+const { paid, pending } = require("../../config/paymentConfig").status;
 
 /**
  * GET all data set
  * @input
  * @output {array}
  */
-module.exports.getAll = async () => {
+module.exports.getAll = async (params) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = await repository.findAll({});
+      let query = { is_deleted: false };
+      let totalAmount = 0;
+      if (
+        params.status &&
+        (params.status == "pending" || params.status == "paid")
+      ) {
+        query["status"] = params.status;
+      }
+      let data = await repository.findAll(query);
+
+      if (
+        params.status &&
+        (params.status == "pending" || params.status == "paid")
+      ) {
+        data.forEach((transaction) => {
+          totalAmount += parseFloat(transaction.amount);
+        });
+        data = {
+          status: params.status,
+          amount: totalAmount,
+        };
+      }
       if (!data || data.length == 0) {
         resolve([]);
       } else {
@@ -61,9 +82,20 @@ module.exports.save = async (obj) => {
         name: "Vehicle Inspection Fee with AutoAssure.me",
       });
 
+      let totalPrice = parseFloat(obj.amount);
+
+      if (
+        obj["additional_requests"] &&
+        obj["additional_requests"].length !== 0
+      ) {
+        obj["additional_requests"].forEach((price_obj) => {
+          totalPrice += parseFloat(price_obj.price);
+        });
+      }
+
       // Create a price for the product
       const price = await stripe.prices.create({
-        unit_amount: obj.amount * 100,
+        unit_amount: totalPrice * 100,
         currency: obj.currency,
         product: product.id, // above created
       });

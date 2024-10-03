@@ -10,6 +10,12 @@ module.exports.addOneRecord = joi.object().keys({
   inspection_report: joi.string().required(),
   payment_email: joi.string().required(),
   status: joi.string().valid(pending),
+  additional_requests: joi.array().items(
+    joi.object({
+      name: joi.string().optional(),
+      price: joi.string().optional(),
+    })
+  ),
 });
 
 // update object schema
@@ -20,4 +26,10 @@ module.exports.updateOneRecord = joi.object().keys({
   inspection_report: joi.string(),
   payment_email: joi.string(),
   status: joi.string().valid(pending),
+  additional_requests: joi.array().items(
+    joi.object({
+      name: joi.string().optional(),
+      price: joi.string().optional(),
+    })
+  ),
 });
