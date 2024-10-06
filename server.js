@@ -1,34 +1,38 @@
-require('dotenv').config();
+require("dotenv").config();
 // Import cross origins
-const cors = require('cors');
+const cors = require("cors");
 // Import express
-const express = require('express');
+const express = require("express");
 // import MongoDB
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 // import http
-const http = require('http');
+const http = require("http");
+// import cron
+const cron = require("./services/scheduleServices");
+// start cron jobs
+cron.sendReminderEmail();
 
-const config = require('./config/config');
+const config = require("./config/config");
 // create express server
 const server = express();
 // Allow cross origins
 server.use(
   cors({
-    origin: 'https://autoassure.me',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin: "https://autoassure.me",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 // Set constant server port
 const serverPort = config.web_port;
 
-const directoryService = require('./services/directoryService');
+const directoryService = require("./services/directoryService");
 
 directoryService.createDirectories();
 
 // set routes
 // set routes
-server.use('/api', require('./routes'));
+server.use("/api", require("./routes"));
 
 server.use(express.static(__dirname));
 // check environment
@@ -56,9 +60,9 @@ if (isProduction) {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
-  mongoose.set('debug', true);
-  mongoose.set('useCreateIndex', true);
-  mongoose.set('useFindAndModify', false);
+  mongoose.set("debug", true);
+  mongoose.set("useCreateIndex", true);
+  mongoose.set("useFindAndModify", false);
 }
 
 const httpServer = http.createServer(server);

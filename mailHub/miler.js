@@ -143,6 +143,26 @@ mailSender.paymentForInspection = function (
   );
 };
 
+mailSender.inspectionReminder = function (
+  toAddress,
+  mechanicName,
+  inspectionDate,
+  vehicleModel,
+  inspectionLocation
+) {
+  const mailSubject = "Vehicle Inspection Reminder";
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.remindInspection(
+      mechanicName,
+      inspectionDate,
+      vehicleModel,
+      inspectionLocation
+    )
+  );
+};
+
 /**
  * send invoice mail with attachment
  */
