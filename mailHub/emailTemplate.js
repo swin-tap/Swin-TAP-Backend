@@ -680,6 +680,66 @@ templates.paymentForInspection = function (
   `;
 };
 
+templates.customBodyEmail = function (toName, body) {
+  return `<table width="100%" cellpadding="0" cellspacing="0">
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+			  <tr>
+				<td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
+						  <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
+							Hello ${toName},
+						  </h1>
+						  <br />
+						  ${body}
+						  <br />
+						  <br />
+						  <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
+							Best regards,<br />AutoAssure Team
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
+						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
+							© ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
+    config.app_name
+  }</a>. All rights reserved.
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
+};
+
 templates.remindInspection = function (
   mechanicName,
   inspectionDate,
@@ -687,70 +747,70 @@ templates.remindInspection = function (
   inspectionLocation
 ) {
   return `<table width="100%" cellpadding="0" cellspacing="0">
-  <tbody>
-    <tr>
-      <td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
-        <table width="100%" cellpadding="0" cellspacing="0">
-          <tbody>
-            <tr>
-              <td style="text-align:center">
-                <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
-              </td>
-            </tr>
-            <tr>
-              <td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
-                <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
-                  <tbody>
-                    <tr>
-                      <td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
-                        <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
-                          Hello ${mechanicName},
-                        </h1>
-                        <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
-                          This is a reminder that you have an upcoming vehicle inspection scheduled.
-                        </p>
-                        <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
-                          <strong>Inspection Date:</strong> ${inspectionDate}<br />
-                          <strong>Vehicle Model:</strong> ${vehicleModel}<br />
-                          <strong>Inspection Location:</strong> ${inspectionLocation}<br />
-                        </p>
-                        <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
-                          Please make sure to arrive at the scheduled time and complete the inspection. If you have any questions, feel free to contact us.
-                        </p>
-                        <br />
-                        <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
-                          Best regards,<br />AutoAssure Team
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
-                  <tbody>
-                    <tr>
-                      <td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
-                        <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
-                          © ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
+	<tbody>
+	  <tr>
+		<td style="width:100%;margin:0;padding:0;background-color:#fff" align="center">
+		  <table width="100%" cellpadding="0" cellspacing="0">
+			<tbody>
+			  <tr>
+				<td style="text-align:center">
+				  <img width="200" src="https://i.imgur.com/goYWLzk.jpeg" />
+				</td>
+			  </tr>
+			  <tr>
+				<td style="width:100%;margin:0;padding:0;border-top:1px solid #edeff2;border-bottom:1px solid #edeff2;background-color:#fff" width="100%">
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;padding:35px">
+						  <h1 style="margin-top:0;color:#2f3133;font-size:19px;text-align:left">
+							Hello ${mechanicName},
+						  </h1>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							This is a reminder that you have an upcoming vehicle inspection scheduled.
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							<strong>Inspection Date:</strong> ${inspectionDate}<br />
+							<strong>Vehicle Model:</strong> ${vehicleModel}<br />
+							<strong>Inspection Location:</strong> ${inspectionLocation}<br />
+						  </p>
+						  <p style="margin-top:0;color:#74787e;font-size:16px;line-height:1.5em">
+							Please make sure to arrive at the scheduled time and complete the inspection. If you have any questions, feel free to contact us.
+						  </p>
+						  <br />
+						  <p style="margin-top:10px;color:#74787e;font-size:16px;line-height:1.5em">
+							Best regards,<br />AutoAssure Team
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  <table style="width:auto;max-width:570px;margin:0 auto;padding:0;text-align:center" align="center" width="570" cellpadding="0" cellspacing="0">
+					<tbody>
+					  <tr>
+						<td style="font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;color:#aeaeae;padding:35px;text-align:center">
+						  <p style="margin-top:0;color:#000;font-size:12px;line-height:1.5em">
+							© ${new Date().getFullYear()} <a style="color:#000" href="https://autoassure.me/" target="_blank">${
     config.app_name
   }</a>. All rights reserved.
-                        </p>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-    </tr>
-  </tbody>
-</table>
-`;
+						  </p>
+						</td>
+					  </tr>
+					</tbody>
+				  </table>
+				</td>
+			  </tr>
+			</tbody>
+		  </table>
+		</td>
+	  </tr>
+	</tbody>
+  </table>
+  `;
 };
 
 module.exports = templates;

@@ -1,7 +1,7 @@
 // import mongoose
 const mongoose = require("mongoose");
 // declare model name
-const model_name = "card";
+const model_name = "lead";
 
 // create schema
 const schema = new mongoose.Schema(

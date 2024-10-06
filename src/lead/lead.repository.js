@@ -1,5 +1,5 @@
 // import model
-const model = require("./card.model");
+const model = require("./lead.model");
 
 // count
 module.exports.count = (query) => {

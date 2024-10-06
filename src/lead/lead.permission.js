@@ -2,21 +2,25 @@
 const { admin, seller } = require("../../config/permissionConfig").userRoles;
 
 module.exports.permission_list = {
-  card_get_all: {
+  lead_get_all: {
     path: "/",
   },
-  card_get_by_id: {
+  lead_get_by_id: {
     path: "/:id",
   },
-  card_save: {
+  lead_custom_email: {
+    path: "/custom-email",
+    granted: [admin],
+  },
+  lead_save: {
     path: "/",
     granted: [admin, seller],
   },
-  card_update: {
+  lead_update: {
     path: "/",
     granted: [admin, seller],
   },
-  card_remove: {
+  lead_remove: {
     path: "/:id",
     granted: [admin, seller],
   },
