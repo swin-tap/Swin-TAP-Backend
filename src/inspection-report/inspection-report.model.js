@@ -19,8 +19,9 @@ const schema = new mongoose.Schema(
       required: true,
     },
     inspection_time: {
-      type: String,
+      type: Date,
       trim: true,
+      required: true,
     },
     mechanic: {
       type: mongoose.Schema.Types.ObjectId,
