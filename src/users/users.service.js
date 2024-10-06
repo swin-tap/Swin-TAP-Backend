@@ -84,6 +84,13 @@ module.exports.getAll = async (queryParams) => {
     query = appendService.appendQueryParams(queryParams, "email", query);
     // search by role
     query = appendService.appendQueryParams(queryParams, "role", query, true);
+    // search by mechanic_verification
+    query = appendService.appendQueryParams(
+      queryParams,
+      "mechanic_verification",
+      query,
+      true
+    );
 
     try {
       const count = await this.count(query);
