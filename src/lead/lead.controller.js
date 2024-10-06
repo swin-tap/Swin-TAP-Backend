@@ -1,5 +1,5 @@
 // import service
-const service = require("./card.service");
+const service = require("./lead.service");
 // import response service to handle the output
 const {
   customError,
@@ -30,6 +30,16 @@ module.exports.getOne = async (req, res) => {
 module.exports.postData = async (req, res) => {
   try {
     const output = await service.save(req.body);
+    successWithData(output, res);
+  } catch (error) {
+    return customError(error, res);
+  }
+};
+
+// POST Email data object
+module.exports.postEmailData = async (req, res) => {
+  try {
+    const output = await service.sendCustomEmail(req.body);
     successWithData(output, res);
   } catch (error) {
     return customError(error, res);

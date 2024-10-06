@@ -16,7 +16,7 @@ router.use(
 // set user routes
 router.use("/users", require("../src/users/users.router"));
 // set card routes
-router.use("/cards", require("../src/card/card.router"));
+router.use("/leads", require("../src/lead/lead.router"));
 // set vehicle routes
 router.use("/vehicle", require("../src/vehicle/vehicle.router"));
 // set payment routes

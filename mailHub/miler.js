@@ -143,6 +143,15 @@ mailSender.paymentForInspection = function (
   );
 };
 
+mailSender.customEmail = function (toAddress, title, toName, body) {
+  const mailSubject = title;
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.customBodyEmail(toName, body)
+  );
+};
+
 /**
  * send invoice mail with attachment
  */
