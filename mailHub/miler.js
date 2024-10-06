@@ -152,15 +152,6 @@ mailSender.customEmail = function (toAddress, title, toName, body) {
   );
 };
 
-mailSender.customEmail = function (toAddress, title, toName, body) {
-  const mailSubject = title;
-  return setMailConfiguration(
-    toAddress,
-    mailSubject,
-    mailTemplates.customBodyEmail(toName, body)
-  );
-};
-
 mailSender.inspectionReminder = function (
   toAddress,
   mechanicName,
