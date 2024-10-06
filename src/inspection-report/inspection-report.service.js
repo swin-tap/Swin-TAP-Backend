@@ -230,6 +230,33 @@ module.exports.updateSingleObj = async (obj) => {
     const id = obj._id;
     delete obj._id;
     try {
+      if (obj.status && obj.status === status.assigned && obj.mechanic) {
+        // extract inspection data
+        const inspData = await this.getById(id);
+        let iTime = inspData.inspection_time;
+        iTime = new Date(iTime);
+
+        // Calculate the time range (+/- 1 hour)
+        const oneHourBefore = new Date(iTime.getTime() - 60 * 60 * 1000);
+        const oneHourAfter = new Date(iTime.getTime() + 60 * 60 * 1000);
+
+        // Query the database for existing inspections
+        const existingInspection = await repository.findAll({
+          mechanic: obj.mechanic,
+          inspection_time: {
+            $gte: oneHourBefore,
+            $lte: oneHourAfter,
+          },
+        });
+
+        if (existingInspection && existingInspection.length > 1) {
+          reject(
+            "You have already accepted another inspection booking within one hour time frame."
+          );
+          return;
+        }
+      }
+
       const data = await repository.updateSingleObject({ _id: id }, obj);
 
       if (!data) {
@@ -240,6 +267,7 @@ module.exports.updateSingleObj = async (obj) => {
           if (data.mechanic && data.seller) {
             // extract inspection data
             const inspec_data = await this.getById(id);
+
             // extract inspection data
             const { inspection_time, seller, mechanic } = inspec_data;
 
