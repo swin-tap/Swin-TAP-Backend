@@ -1,5 +1,6 @@
 // import repository
-const repository = require("./card.repository");
+const repository = require("./lead.repository");
+const mailer = require("../../mailHub/miler");
 
 /**
  * GET all data set
@@ -53,6 +54,23 @@ module.exports.save = async (obj) => {
       const data = await repository.save(obj);
 
       resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * Send Custom Email
+ * @input {object}
+ * @output {object}
+ */
+module.exports.sendCustomEmail = async (obj) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { toAddress, title, toName, body } = obj;
+      await mailer.customEmail(toAddress, title, toName, body);
+      resolve("Email send successful");
     } catch (error) {
       reject(error);
     }

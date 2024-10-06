@@ -7,6 +7,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 // import http
 const http = require("http");
+// import cron
+const cron = require("./services/scheduleServices");
+// start cron jobs
+cron.sendReminderEmail();
 
 const config = require("./config/config");
 // create express server
