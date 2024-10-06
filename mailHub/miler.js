@@ -152,6 +152,35 @@ mailSender.customEmail = function (toAddress, title, toName, body) {
   );
 };
 
+mailSender.customEmail = function (toAddress, title, toName, body) {
+  const mailSubject = title;
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.customBodyEmail(toName, body)
+  );
+};
+
+mailSender.inspectionReminder = function (
+  toAddress,
+  mechanicName,
+  inspectionDate,
+  vehicleModel,
+  inspectionLocation
+) {
+  const mailSubject = "Vehicle Inspection Reminder";
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.remindInspection(
+      mechanicName,
+      inspectionDate,
+      vehicleModel,
+      inspectionLocation
+    )
+  );
+};
+
 /**
  * send invoice mail with attachment
  */
