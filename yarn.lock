@@ -2404,6 +2404,13 @@ netmask@^2.0.2:
   resolved "https://registry.npmjs.org/netmask/-/netmask-2.0.2.tgz"
   integrity sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==
 
+node-cron@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.npmjs.org/node-cron/-/node-cron-3.0.3.tgz"
+  integrity sha512-dOal67//nohNgYWb+nWmg5dkFdIwDm8EpeGYMekPMrngV3637lqnX0lbUcCtgibHTz6SEz7DAIjKvKDFYCnO1A==
+  dependencies:
+    uuid "8.3.2"
+
 nodemailer@^4.7.0:
   version "4.7.0"
   resolved "https://registry.npmjs.org/nodemailer/-/nodemailer-4.7.0.tgz"
@@ -3545,7 +3552,7 @@ utils-merge@1.0.1:
 uuid@^3.3.2:
   version "3.4.0"
 
-uuid@^8.3.0:
+uuid@^8.3.0, uuid@8.3.2:
   version "8.3.2"
 
 v8-compile-cache@^2.0.3:
