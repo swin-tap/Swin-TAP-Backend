@@ -87,7 +87,11 @@ module.exports.save = async (obj) => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await repository.save(obj);
-
+      // update vehicle status
+      await vehicleService.updateSingleObj({
+        _id: obj.vehicle,
+        inspection_status: inspection_status.requested,
+      });
       resolve(data);
     } catch (error) {
       reject(error);
