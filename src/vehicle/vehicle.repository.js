@@ -69,6 +69,9 @@ module.exports.findAll = (query) => {
         }
       }
 
+      // check for deleted items
+      filters.is_deleted = false;
+
       // Count the total number of matching vehicles (without pagination)
       const totalCount = await model.countDocuments(filters);
 
