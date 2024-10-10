@@ -1,8 +1,8 @@
 // import repository
-const repository = require("./vehicle.repository");
+const repository = require('./vehicle.repository');
 
 // import from vehicle config
-const { inspection_status } = require("../../config/vehicleConfig");
+const { inspection_status } = require('../../config/vehicleConfig');
 
 /**
  * COUNT all data set
@@ -12,15 +12,40 @@ const { inspection_status } = require("../../config/vehicleConfig");
 module.exports.adminCount = async (params) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let query = { is_deleted: false };
-      if (params.filter && params.filter === "inspected") {
-        query["inspection_status"] = inspection_status.completed;
-      }
-      const data = await repository.count(query);
-      if (!data || data.length === 0) {
-        resolve({ count: 0 });
+      const query = { is_deleted: false };
+      query.inspection_status = inspection_status.completed;
+      const data_inspection_completed = await repository.count(query);
+
+      query.inspection_status = inspection_status.not_requested;
+      const data_inspection_not_requested = await repository.count(query);
+
+      query.inspection_status = inspection_status.accepted;
+      const data_inspection_accepted = await repository.count(query);
+
+      query.inspection_status = inspection_status.requested;
+      const data_inspection_requested = await repository.count(query);
+
+      if (
+        (!data_inspection_completed ||
+          data_inspection_completed.length === 0) &&
+        (!data_inspection_not_requested ||
+          data_inspection_not_requested.length === 0) &&
+        (!data_inspection_accepted || data_inspection_accepted.length === 0) &&
+        (!data_inspection_requested || data_inspection_requested.length === 0)
+      ) {
+        resolve({
+          completed: 0,
+          not_requested: 0,
+          accepted: 0,
+          requested: 0,
+        });
       } else {
-        resolve({ count: data, filter: params.filter ? params.filter : "all" });
+        resolve({
+          completed: data_inspection_completed,
+          not_requested: data_inspection_not_requested,
+          accepted: data_inspection_accepted,
+          requested: data_inspection_requested,
+        });
       }
     } catch (error) {
       reject(error);
@@ -134,7 +159,7 @@ module.exports.getById = async (id) => {
       const data = await repository.findById({ _id: id });
 
       if (!data || data.length == 0) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
@@ -172,7 +197,7 @@ module.exports.updateSingleObj = async (obj) => {
     try {
       const data = await repository.updateSingleObject({ _id: id }, obj);
       if (!data) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
@@ -192,7 +217,7 @@ module.exports.DeleteSingleObject = async (id) => {
     try {
       const data = await repository.removeObject({ _id: id });
       if (!data) {
-        reject("No data found from given id");
+        reject('No data found from given id');
       } else {
         resolve(data);
       }
