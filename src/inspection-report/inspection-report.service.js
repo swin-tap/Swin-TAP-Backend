@@ -10,8 +10,11 @@ const userService = require("../users/users.service");
 // import mail service
 const mailSender = require("../../mailHub/miler");
 const { inspection_status } = require("../../config/vehicleConfig");
+const vehicle_condition = require("../../config/vehicleConfig").condition;
 // QR code generator
 var QRCode = require("qrcode");
+// import axios
+const axios = require("axios");
 
 // import search field append service
 const appendService = require("../../services/searchFieldAppendService");
@@ -148,7 +151,14 @@ module.exports.generateReport = async (obj) => {
         const page = await browser.newPage();
 
         // extract vehicle details
-        const { brand, model, yom, address } = inspec_data.vehicle;
+        const {
+          brand,
+          model,
+          yom,
+          address,
+          condition,
+          mileage,
+        } = inspec_data.vehicle;
 
         // extract inspection data
         const { vehicle_rego, inspection_time } = inspec_data;
@@ -205,11 +215,30 @@ module.exports.generateReport = async (obj) => {
         });
         await browser.close();
 
+        // check roadworthy prediction.
+        const roadworthyOutput = await this.checkRoadworthy(
+          yom,
+          condition,
+          mileage,
+          inspec_data.checklist
+        );
+
+        // send email about roadworthy prediction
+        await mailSender.roadworthyPrediction(
+          inspec_data.seller.email,
+          inspec_data.seller.name,
+          inspec_data.vehicle.title,
+          roadworthyOutput.roadworthy_prediction === "True"
+            ? "Satisfied roadworthy conditions"
+            : "Not according to roadworthy conditions"
+        );
+
         // *** //
-        // send email about additional note.
+        //send email about additional note.
 
         resolve({
           report_path: `${process.env.SERVER_PATH}uploads/${obj._id}.pdf`,
+          ...roadworthyOutput,
         });
       } else {
         reject("Inspection not assigned with mechanic.");
@@ -323,5 +352,82 @@ module.exports.DeleteSingleObject = async (id) => {
     } catch (error) {
       reject(error);
     }
+  });
+};
+
+/**
+ * Roadworthy condition check
+ * @input {objId}
+ * @output {object}
+ */
+module.exports.checkRoadworthy = async (yom, condition, mileage, checklist) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (condition === vehicle_condition.brand_new) {
+        resolve(True);
+      } else {
+        const currentYear = new Date().getFullYear();
+        const yearDifference = currentYear - yom;
+
+        if (yearDifference <= 5) {
+          resolve(True);
+        } else {
+          let selectedData = await filterFields(checklist, [
+            "brake_condition_bad",
+            "tire_condition_bad",
+            "suspension_condition_bad",
+            "emission_compliance_fail",
+          ]);
+
+          if (selectedData) {
+            selectedData = {
+              ...selectedData,
+              vehicle_age: yearDifference,
+              kilometer: mileage,
+            };
+
+            const response = await axios.post(
+              `${process.env.PYTHON_SERVER_PATH}predict`,
+              selectedData
+            );
+
+            resolve(response.data);
+          } else {
+            resolve("Not valid records found for roadworthy");
+          }
+        }
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const filterFields = async (inputData, expectedFields) => {
+  return new Promise(async (resolve, reject) => {
+    // Create a new object to store the filtered fields
+    const filteredData = {};
+
+    for (const [key, value] of inputData) {
+      if (expectedFields.includes(key)) {
+        filteredData[key] = value;
+      }
+    }
+
+    if (Object.keys(filteredData).length === 0) {
+      resolve(null);
+    }
+
+    // call for Sentiment Analysis
+    axios
+      .post(`${process.env.PYTHON_SERVER_PATH}analyze-feedback`, filteredData)
+      .then((response) => {
+        const result = response.data;
+        resolve(result);
+      })
+      .catch((error) => {
+        console.error("Error calling Flask API:", error);
+        resolve(result);
+      });
   });
 };

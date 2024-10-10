@@ -172,6 +172,24 @@ mailSender.inspectionReminder = function (
   );
 };
 
+mailSender.roadworthyPrediction = function (
+  toAddress,
+  sellerName,
+  vehicleModel,
+  predictionResult
+) {
+  const mailSubject = "Roadworthy Prediction for Your Vehicle";
+  return setMailConfiguration(
+    toAddress,
+    mailSubject,
+    mailTemplates.roadworthyPrediction(
+      sellerName,
+      vehicleModel,
+      predictionResult
+    )
+  );
+};
+
 /**
  * send invoice mail with attachment
  */
