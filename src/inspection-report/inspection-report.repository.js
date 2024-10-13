@@ -1,5 +1,5 @@
 // import model
-const model = require("./inspection-report.model");
+const model = require('./inspection-report.model');
 
 // count
 module.exports.count = (query) => {
@@ -20,10 +20,17 @@ module.exports.findAll = (query) => {
   return new Promise((resolve, reject) => {
     model
       .find(query)
-      .populate("mechanic")
-      .populate("seller")
-      .populate("vehicle")
-      .populate("images")
+      .populate('mechanic')
+      .populate('seller')
+      .populate({
+        path: 'vehicle',
+        populate: {
+          path: 'files', // Populating files inside vehicle
+          select: 'new_filename', // select specific fields
+          options: { limit: 1 }, // Limit the population to only the first item
+        },
+      })
+      .populate('images')
       .then((data) => {
         resolve(data);
       })
@@ -38,10 +45,10 @@ module.exports.findById = (query) => {
   return new Promise((resolve, reject) => {
     model
       .findById(query)
-      .populate("mechanic")
-      .populate("seller")
-      .populate("vehicle")
-      .populate("images")
+      .populate('mechanic')
+      .populate('seller')
+      .populate('vehicle')
+      .populate('images')
       .then((data) => {
         resolve(data);
       })
