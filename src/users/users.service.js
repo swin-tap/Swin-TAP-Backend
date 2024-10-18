@@ -1,26 +1,26 @@
 // import repository
-const repository = require('./users.repository');
+const repository = require("./users.repository");
 // import bycrypt to hash the password
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 // generate unique id for conf code
-const uniqId = require('uniqid');
-const shortid = require('shortid');
+const uniqId = require("uniqid");
+const shortid = require("shortid");
 // jwt token service
-const tokenService = require('../../services/tokenService');
+const tokenService = require("../../services/tokenService");
 // import mail service
-const mailSender = require('../../mailHub/miler');
+const mailSender = require("../../mailHub/miler");
 // object ID for mongodb
-const ObjectId = require('mongodb').ObjectID;
+const ObjectId = require("mongodb").ObjectID;
 // import search field append service
-const { query } = require('express');
-const appendService = require('../../services/searchFieldAppendService');
+const { query } = require("express");
+const appendService = require("../../services/searchFieldAppendService");
 // import user status
 const {
   userRoles,
   mechanicVerification,
-} = require('../../config/permissionConfig');
+} = require("../../config/permissionConfig");
 // collection name for the errors
-const collectionName = 'user';
+const collectionName = "user";
 
 /**
  * COUNT all data set
@@ -93,17 +93,17 @@ module.exports.getAll = async (queryParams) => {
     let query = { is_deleted: false };
 
     // search by name
-    query = appendService.appendQueryParams(queryParams, 'name', query);
+    query = appendService.appendQueryParams(queryParams, "name", query);
     // search by nic
-    query = appendService.appendQueryParams(queryParams, 'nic', query);
+    query = appendService.appendQueryParams(queryParams, "nic", query);
     // search by email
-    query = appendService.appendQueryParams(queryParams, 'email', query);
+    query = appendService.appendQueryParams(queryParams, "email", query);
     // search by role
-    query = appendService.appendQueryParams(queryParams, 'role', query, true);
+    query = appendService.appendQueryParams(queryParams, "role", query, true);
     // search by mechanic_verification
     query = appendService.appendQueryParams(
       queryParams,
-      'mechanic_verification',
+      "mechanic_verification",
       query,
       true
     );
@@ -179,7 +179,7 @@ module.exports.save = async (obj) => {
   return new Promise(async (resolve, reject) => {
     try {
       // check the user already exist with given phone number or email
-      await findUniqueFieldForSave('email', obj.email, 'user');
+      await findUniqueFieldForSave("email", obj.email, "user");
 
       // hash the password
       obj.password = createPasswordHash(obj.password);
@@ -202,7 +202,7 @@ module.exports.create = async (obj) => {
   return new Promise(async (resolve, reject) => {
     try {
       // check the user already exist with given phone number or email
-      await findUniqueFieldForSave('email', obj.email, 'user');
+      await findUniqueFieldForSave("email", obj.email, "user");
 
       // hash the password
       const newPassword = shortid.generate();
@@ -235,7 +235,7 @@ module.exports.contactUSService = async (obj) => {
         subject,
         message
       );
-      resolve('Contact US Email Sent.');
+      resolve("Contact US Email Sent.");
     } catch (error) {
       reject(error);
     }
@@ -253,13 +253,13 @@ module.exports.updateSingleObj = async (obj) => {
     delete obj._id;
     try {
       if (obj.email) {
-        await findUniqueFieldForUpdate('email', obj.email, id, 'user');
+        await findUniqueFieldForUpdate("email", obj.email, id, "user");
       }
       if (obj.nic) {
-        await findUniqueFieldForUpdate('nic', obj.nic, id, 'user');
+        await findUniqueFieldForUpdate("nic", obj.nic, id, "user");
       }
       if (obj.phone) {
-        await findUniqueFieldForUpdate('phone', obj.phone, id, 'user');
+        await findUniqueFieldForUpdate("phone", obj.phone, id, "user");
       }
 
       const data = await repository.updateSingleObject(
@@ -329,20 +329,12 @@ module.exports.loginWithEmail = async (obj) => {
           mechanic_verification,
         } = perviousUserData[0];
 
-        // check for un verified users.
-        if (
-          role === userRoles.mechanic &&
-          mechanic_verification !== mechanicVerification.verified
-        ) {
-          reject('Mechanic is not verified yet.');
-        }
-
         // compare password
         if (bcrypt.compareSync(obj.password, password)) {
           // return created token
           resolve(tokenService.toAuthJSON(_id, role, name, email, phone, age));
         } else {
-          reject('Invalid password');
+          reject("Invalid password");
         }
       }
     } catch (error) {
@@ -367,7 +359,7 @@ module.exports.resetPassword = async ({ email, password, new_password }) => {
 
       // if there is no previous user found
       if (!perviousUserData || perviousUserData.length == 0) {
-        reject('Invalid email address');
+        reject("Invalid email address");
       } else if (bcrypt.compareSync(password, perviousUserData[0].password)) {
         // hash the password
         const hashedPassword = createPasswordHash(new_password);
@@ -380,7 +372,7 @@ module.exports.resetPassword = async ({ email, password, new_password }) => {
         mailSender.resetPassword(updatedData.email, updatedData.name);
         resolve(updatedData);
       } else {
-        reject('Current password is invalid');
+        reject("Current password is invalid");
       }
     } catch (error) {
       reject(error);
@@ -404,7 +396,7 @@ module.exports.forgetPassword = async ({ email }) => {
 
       // if there is no previous user found
       if (!perviousUserData || perviousUserData.length == 0) {
-        reject('Invalid email address');
+        reject("Invalid email address");
       } else {
         // hash the password
         const newPassword = shortid.generate();
@@ -444,9 +436,9 @@ const findUniqueFieldForUpdate = async (
 
       // if there is no previous user found
       if (!perviousUserData || perviousUserData.length == 0) {
-        resolve('new recode');
+        resolve("new recode");
       } else if (perviousUserData[0]._id == currentId) {
-        resolve('new recode');
+        resolve("new recode");
       } else {
         reject(`${element} already exist with given ${fieldName}`);
       }
@@ -467,7 +459,7 @@ const findUniqueFieldForSave = async (fieldName, fieldValue, element) => {
 
       // if there is no previous user found
       if (!perviousUserData || perviousUserData.length == 0) {
-        resolve('new object');
+        resolve("new object");
       } else {
         reject(`${element} already exist with given ${fieldName}`);
       }
